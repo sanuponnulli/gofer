@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -10,6 +12,7 @@ class FreelanceLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -27,9 +30,11 @@ class FreelanceLogin extends StatelessWidget {
           ),
 
           Container(
-            decoration: const BoxDecoration(
+            height: size.height,
+            decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(50))),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(50))),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
