@@ -6,6 +6,19 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 
+import '../addjobs/add_jobs.dart';
+import '../messages/messages_screen.dart';
+import '../proposals/proposals_client.dart';
+import '../search/search_screen.dart';
+
+List<Widget> pages = const [
+  SearchScreen(),
+  ClientProposals(),
+  AddJob(),
+  Messagescreen(),
+  SafeArea(child: Text("sss"))
+];
+
 class ClientLogin extends StatelessWidget {
   const ClientLogin({Key? key}) : super(key: key);
 
@@ -57,7 +70,9 @@ class ClientLogin extends StatelessWidget {
                       shape: roundedRectangleBorder,
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => const HomePageClient()));
+                            builder: (ctx) => HomePageClient(
+                                  pages: pages,
+                                )));
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(builder: (ctx) => HomePage()),
                         //     (Route<dynamic> route) => false);

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/dataclasses/job.dart';
+import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
 
 import 'client_add_details.dart';
+
+final List<Job> joblist = List.generate(
+    10,
+    (index) => Job("title$index", "description$index", "joblocation$index",
+        index.toDouble()));
 
 class Clientprofile extends StatelessWidget {
   const Clientprofile({Key? key}) : super(key: key);
@@ -51,17 +58,38 @@ class Clientprofile extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(kGreen)),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: ((context) {
-                                    return const ClientAddDetails();
-                                  })));
-                                },
-                                child: const Text("Edit Profile")),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(kGreen)),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: ((context) {
+                                        return const ClientAddDetails();
+                                      })));
+                                    },
+                                    child: const Text("Message")),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(kGreen)),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: ((context) {
+                                        return const ClientAddDetails();
+                                      })));
+                                    },
+                                    child: const Text("Edit Profile")),
+                              ],
+                            ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: InkWell(
@@ -116,14 +144,21 @@ class Clientprofile extends StatelessWidget {
             ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: joblist.length,
                 itemBuilder: (context, index) {
-                  return const Card(
+                  return Card(
                     child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => JobTemplate(
+                                title: joblist[index].title,
+                                description: joblist[index].description,
+                                joblocation: joblist[index].joblocation,
+                                budget: joblist[index].budget))));
+                      },
                       trailing: Text("02-04-2022"),
-                      leading: Text("job title"),
-                      subtitle: Text(
-                          "ehfgdhfbydsgfyusdgyufgdsuygfuysdgygdyufgdshfjsdgfjsdghvcdghcfghdfcgfgh"),
+                      leading: Text(joblist[index].title),
+                      subtitle: Text(joblist[index].description),
                     ),
                   );
                 })
