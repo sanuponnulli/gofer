@@ -21,7 +21,7 @@ class TopJobcontainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: const [
                   CircleAvatar(
@@ -80,8 +80,16 @@ class TopFlancercontainer extends StatelessWidget {
 }
 
 class SearchResultJobTile extends StatelessWidget {
+  final String title;
+  final String description;
+  final String joblocation;
+  final double budget;
   const SearchResultJobTile({
     Key? key,
+    required this.title,
+    required this.description,
+    required this.joblocation,
+    required this.budget,
   }) : super(key: key);
 
   @override
@@ -97,11 +105,11 @@ class SearchResultJobTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: const [
+                    children: [
                       SizedBox(
                         width: 250,
                         child: Text(
-                          "I wasddddddddddddddddddddddddddnt to transfer Goods from a to b",
+                          title,
                           style: TextStyle(
                               color: kGreen,
                               fontSize: 15,
@@ -129,9 +137,9 @@ class SearchResultJobTile extends StatelessWidget {
               ),
               ListTile(
                 leading: Column(
-                  children: const [
+                  children: [
                     Text(
-                      "\$20",
+                      budget.toString(),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
@@ -154,10 +162,10 @@ class SearchResultJobTile extends StatelessWidget {
                 ),
               ),
               Column(
-                children: const [
+                children: [
                   Text(
                       style: TextStyle(fontSize: 15),
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).")
+                      "${description}le content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).")
                 ],
               ),
               const SizedBox(

@@ -3,8 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
-class ClientProposals extends StatelessWidget {
-  const ClientProposals({Key? key}) : super(key: key);
+class Freelancerproposals extends StatelessWidget {
+  const Freelancerproposals({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ClientProposals extends StatelessWidget {
             indicatorColor: kGreen,
             tabs: <Widget>[
               Tab(
-                text: "Offers",
+                text: "Open proposals",
                 icon: Icon(Icons.pages_outlined),
               ),
               Tab(
@@ -31,7 +31,7 @@ class ClientProposals extends StatelessWidget {
               ListView.separated(
                   itemBuilder: (context, index) {
                     return ListTile(
-                      subtitle: Text("Freelancer profile name"),
+                      subtitle: Text("Client profile name"),
                       title: SizedBox(
                         child: ListView(
                           children: [
@@ -43,8 +43,8 @@ class ClientProposals extends StatelessWidget {
                         height: 200,
                       ),
                       trailing: IconButton(
-                        color: kGreen,
-                        icon: Icon(Icons.check),
+                        color: Colors.red,
+                        icon: Icon(Icons.multiple_stop_outlined),
                         onPressed: () {},
                       ),
                       leading: Column(children: [
@@ -52,7 +52,7 @@ class ClientProposals extends StatelessWidget {
                           "Bid Price",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text("Rs 500"),
+                        Text("Rs 500")
                       ]),
                     );
                   },
@@ -63,12 +63,21 @@ class ClientProposals extends StatelessWidget {
               ListView.separated(
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text("freelancer name"),
+                      title: Text("Client Name"),
                       leading: Text("Job title"),
                       trailing: ElevatedButton.icon(
                           onPressed: () {},
                           icon: Icon(Icons.check),
-                          label: Text("job complete PAY")),
+                          label: Text("Message Client")),
+                      subtitle: Row(
+                        children: [
+                          Text("Status:"),
+                          Text(
+                            "paid",
+                            style: TextStyle(color: kGreen),
+                          )
+                        ],
+                      ),
                       //     trailing: IconButton(
                       //   onPressed: () {},
                       //   icon: Icon(Icons.check),

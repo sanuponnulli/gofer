@@ -11,19 +11,18 @@ import '../messages/messages_screen.dart';
 import '../proposals/proposals_client.dart';
 import '../search/search_screen.dart';
 
-List<Widget> pages = const [
-  SearchScreen(),
-  ClientProposals(),
-  AddJob(),
-  Messagescreen(),
-  SafeArea(child: Text("sss"))
-];
-
 class ClientLogin extends StatelessWidget {
   const ClientLogin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = const [
+      SearchScreen(),
+      ClientProposals(),
+      AddJob(),
+      Messagescreen(),
+      SafeArea(child: Text("sss"))
+    ];
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -72,6 +71,7 @@ class ClientLogin extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (ctx) => HomePageClient(
                                   pages: pages,
+                                  usertype: 'Client',
                                 )));
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(builder: (ctx) => HomePage()),

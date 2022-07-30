@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/addjobs/add_jobs.dart';
-import 'package:flutter_application_1/screens/messages/messages_screen.dart';
-import 'package:flutter_application_1/screens/search/search_screen.dart';
 
-import '../proposals/proposals_client.dart';
 import 'app_drawer.dart';
 
 ValueNotifier<int> as = ValueNotifier(0);
 
 class HomePageClient extends StatelessWidget {
-  List<Widget> pages;
-  HomePageClient({Key? key, required this.pages}) : super(key: key);
+  final List<Widget> pages;
+  final String usertype;
+  const HomePageClient({Key? key, required this.pages, required this.usertype})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +21,27 @@ class HomePageClient extends StatelessWidget {
                   onTap: (value) => as.value = value,
                   unselectedItemColor: Colors.grey,
                   selectedItemColor: Colors.green,
-                  items: const [
-                    BottomNavigationBarItem(
+                  items: [
+                    const BottomNavigationBarItem(
                         icon: Icon(Icons.search), label: "Search"),
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                         icon: Icon(Icons.mark_as_unread_rounded),
                         label: "Proposals"),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.add), label: "Add jobs"),
-                    BottomNavigationBarItem(
+                    if (usertype == "Client")
+                      const BottomNavigationBarItem(
+                          icon: Icon(Icons.add), label: "Add jobs")
+                    else
+                      const BottomNavigationBarItem(
+                          icon: Icon(Icons.money), label: "Wallet"),
+                    const BottomNavigationBarItem(
                         icon: Icon(Icons.message), label: "Messages"),
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                         icon: Icon(Icons.alarm), label: "alerts")
                   ]);
             }),
-        drawer: Appdrawer(),
+        drawer: Appdrawer(
+          usertype: usertype,
+        ),
         backgroundColor: Colors.white,
         appBar: AppBar(
           actions: const [
@@ -52,8 +56,8 @@ class HomePageClient extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.green),
           toolbarHeight: 50,
           title: Center(
-            child: const Text(
-              "Client",
+            child: Text(
+              usertype,
               style: TextStyle(color: Colors.black),
             ),
           ),

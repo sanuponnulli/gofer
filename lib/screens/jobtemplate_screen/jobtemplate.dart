@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/putproposals/put_proposals.dart';
 
 class JobTemplate extends StatelessWidget {
   const JobTemplate({
@@ -122,7 +123,14 @@ class JobTemplate extends StatelessWidget {
                 height: 100,
               ),
               ElevatedButton(onPressed: () {}, child: Text("Delete")),
-              ElevatedButton(onPressed: () {}, child: Text("put proposal")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return PutProposal();
+                    }));
+                  },
+                  child: Text("put proposal")),
             ],
           ),
         ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/mystats/my_stats.dart';
 import 'package:flutter_application_1/screens/profile/client_profile.dart';
+import 'package:flutter_application_1/screens/profile/freelancer_profile.dart';
 
 class Appdrawer extends StatelessWidget {
-  const Appdrawer({
-    Key? key,
-  }) : super(key: key);
+  final String usertype;
+  const Appdrawer({Key? key, required this.usertype}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,27 +27,29 @@ class Appdrawer extends StatelessWidget {
                 ),
               )),
           ListTile(
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (ctx) => const Clientprofile())),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => usertype == "Client"
+                    ? const Clientprofile()
+                    : const FreelancerProfile())),
             leading: const Icon(Icons.person),
             title: const Text("Profile"),
           ),
           ListTile(
             onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (ctx) => MyStats())),
-            leading: Icon(Icons.query_stats),
-            title: Text("My stats"),
+                .push(MaterialPageRoute(builder: (ctx) => const MyStats())),
+            leading: const Icon(Icons.query_stats),
+            title: const Text("My stats"),
           ),
-          ListTile(
+          const ListTile(
             leading: Icon(Icons.web),
             title: Text("Reports"),
           ),
-          Divider(),
-          ListTile(
+          const Divider(),
+          const ListTile(
             leading: Icon(Icons.settings),
             title: Text("Settings"),
           ),
-          ListTile(
+          const ListTile(
             leading: Icon(Icons.question_mark_rounded),
             title: Text("Help&Support"),
           )

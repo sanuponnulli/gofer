@@ -5,7 +5,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
+import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
+
+import '../addjobs/add_jobs.dart';
+import '../messages/messages_screen.dart';
+import '../proposals/proposals_client.dart';
+import '../search/search_screen.dart';
 
 class FreelanceLogin extends StatelessWidget {
   const FreelanceLogin({Key? key}) : super(key: key);
@@ -61,7 +67,10 @@ class FreelanceLogin extends StatelessWidget {
                   ),
                   MaterialButton(
                     shape: roundedRectangleBorder,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => HomepageFreelancer())));
+                    },
                     minWidth: 380,
                     height: 50,
                     color: kGreen,
