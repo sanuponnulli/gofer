@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
               iconTheme: IconThemeData(color: kGreen),
               backgroundColor: Colors.white)),
       debugShowCheckedModeBanner: false,
-      home: Startpage(),
+      home: const Startpage(),
     );
   }
 }

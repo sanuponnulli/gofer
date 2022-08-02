@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
 class PutProposal extends StatelessWidget {
@@ -19,11 +17,11 @@ class PutProposal extends StatelessWidget {
             Container(
               height: 100,
             ),
-            Text(
+            const Text(
               "Bid Price",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             SizedBox(
@@ -42,14 +40,14 @@ class PutProposal extends StatelessWidget {
                     border: OutlineInputBorder()),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Description ",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(
@@ -66,14 +64,14 @@ class PutProposal extends StatelessWidget {
                   hintText: "Description",
                   border: OutlineInputBorder()),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               "Bid Price",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             TextFormField(

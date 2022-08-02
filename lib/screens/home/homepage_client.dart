@@ -58,7 +58,7 @@ class HomePageClient extends StatelessWidget {
           title: Center(
             child: Text(
               usertype,
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           backgroundColor: Colors.white,

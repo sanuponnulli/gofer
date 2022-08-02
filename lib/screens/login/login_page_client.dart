@@ -1,7 +1,6 @@
-import 'package:email_validator/email_validator.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
@@ -132,7 +131,7 @@ class TextFields extends StatelessWidget {
     return TextFormField(
       // ignore: body_might_complete_normally_nullable
       validator: (value) {
-        print(texteditingcontroller!.value.toString());
+        log(texteditingcontroller!.value.toString());
         if (value!.isEmpty) {
           return "Enter a valid $hint";
         }
@@ -148,7 +147,7 @@ class TextFields extends StatelessWidget {
           focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: kGreen, width: 2)),
           hintText: hint,
-          border: OutlineInputBorder()),
+          border: const OutlineInputBorder()),
     );
   }
 }

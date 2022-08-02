@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
 class FreelancerWallet extends StatelessWidget {
@@ -89,9 +87,9 @@ class FreelancerWallet extends StatelessWidget {
                   color: kGreen, fontSize: 22, fontWeight: FontWeight.bold),
             ),
             Row(
-              children: [],
+              children: const [],
             ),
-            Expanded(
+            const Expanded(
               child: JobHistory(),
             )
           ],
@@ -114,18 +112,18 @@ class JobHistory extends StatelessWidget {
             // tileColor: kGreen,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
-              side: BorderSide(
+              side: const BorderSide(
                 color: kGreen,
               ),
             ),
             hoverColor: kGreen,
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               backgroundColor: Colors.amber,
             ),
           );
         },
         separatorBuilder: (ctx, index) {
-          return Divider();
+          return const Divider();
         },
         itemCount: 10);
   }

@@ -1,17 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
-
-import '../addjobs/add_jobs.dart';
-import '../messages/messages_screen.dart';
-import '../proposals/proposals_client.dart';
-import '../search/search_screen.dart';
 
 class FreelanceLogin extends StatelessWidget {
   const FreelanceLogin({Key? key}) : super(key: key);
@@ -37,10 +28,9 @@ class FreelanceLogin extends StatelessWidget {
 
           Container(
             height: size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(50))),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(50))),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -69,7 +59,7 @@ class FreelanceLogin extends StatelessWidget {
                     shape: roundedRectangleBorder,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => HomepageFreelancer())));
+                          builder: ((context) => const HomepageFreelancer())));
                     },
                     minWidth: 380,
                     height: 50,

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';

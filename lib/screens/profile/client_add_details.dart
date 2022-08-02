@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../constants/colors.dart';
 
@@ -18,7 +15,7 @@ class ClientAddDetails extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Profile",
               style: TextStyle(fontSize: 20),
             ),
@@ -54,11 +51,11 @@ class ClientAddDetails extends StatelessWidget {
                     border: OutlineInputBorder())),
             ElevatedButton(
               onPressed: () {},
-              child: Text(
-                "     Save     ",
-              ),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(kGreen)),
+              child: const Text(
+                "     Save     ",
+              ),
             )
           ],
         ),

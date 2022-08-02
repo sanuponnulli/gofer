@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_application_1/constants/constants.dart';
+// ignore: implementation_imports
 
 import '../../constants/colors.dart';
 
@@ -24,9 +21,9 @@ class _AddJobState extends State<AddJob> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Text("Add Job",
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text("Add Job",
                   style: TextStyle(
                     fontSize: 20,
                   )),
@@ -43,18 +40,18 @@ class _AddJobState extends State<AddJob> {
                 ),
                 TextButton.icon(
                     onPressed: () async {
-                      final _selecteddatetemp = await showDatePicker(
+                      final selecteddatetemp = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate:
                               DateTime.now().subtract(const Duration(days: 30)),
                           lastDate: DateTime.now());
-                      if (_selecteddatetemp == null) {
+                      if (selecteddatetemp == null) {
                         return;
                       }
-                      print(_selecteddatetemp.toString());
+                      // print(_selecteddatetemp.toString());
                       setState(() {
-                        _selecteddate = _selecteddatetemp;
+                        _selecteddate = selecteddatetemp;
                       });
                     },
                     icon: const Icon(

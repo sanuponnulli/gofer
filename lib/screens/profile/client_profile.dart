@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
@@ -73,7 +71,7 @@ class Clientprofile extends StatelessWidget {
                                       })));
                                     },
                                     child: const Text("Message")),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 ElevatedButton(
@@ -156,7 +154,7 @@ class Clientprofile extends StatelessWidget {
                                 joblocation: joblist[index].joblocation,
                                 budget: joblist[index].budget))));
                       },
-                      trailing: Text("02-04-2022"),
+                      trailing: const Text("02-04-2022"),
                       leading: Text(joblist[index].title),
                       subtitle: Text(joblist[index].description),
                     ),

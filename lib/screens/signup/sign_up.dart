@@ -1,7 +1,7 @@
+import 'dart:developer';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
@@ -64,6 +64,7 @@ class _SignUpState extends State<SignUp> {
                             setState(() {
                               dropdownvalue = newValue!;
                             });
+                            // ignore: avoid_print
                             print(newValue);
                           }),
                       TextFields(
@@ -90,9 +91,10 @@ class _SignUpState extends State<SignUp> {
                             return "Enter a valid Email";
                           } else if (EmailValidator.validate(_email.text) ==
                               false) {
-                            print(_email.text);
+                            //print(_email.text);
                             return "Enter a valid E mail";
                           }
+                          return null;
                         },
                         controller: _email,
                         decoration: const InputDecoration(
@@ -106,6 +108,7 @@ class _SignUpState extends State<SignUp> {
                         height: 10,
                       ),
                       TextFormField(
+                        // ignore: body_might_complete_normally_nullable
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Enter a valid Password";
@@ -123,6 +126,7 @@ class _SignUpState extends State<SignUp> {
                         height: 10,
                       ),
                       TextFormField(
+                        // ignore: body_might_complete_normally_nullable
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Enter a valid Password";
@@ -146,16 +150,16 @@ class _SignUpState extends State<SignUp> {
                       MaterialButton(
                         shape: roundedRectangleBorder,
                         onPressed: () {
-                          print(_password1.text);
+                          //print(_password1.text);
                           if (_formKey.currentState!.validate()) {
-                            print("validated");
+                            //print("validated");
                             // use the email provided here
                             if (_password1.text != _password2.text) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                       content: Text("passwords dont match")));
                             } else {
-                              print("saved");
+                              log("saved");
                             }
                           }
                         },
