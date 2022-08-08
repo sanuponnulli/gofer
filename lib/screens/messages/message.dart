@@ -1,10 +1,55 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/constants.dart';
 
-class MessagingScreen extends StatelessWidget {
-  const MessagingScreen({Key? key}) : super(key: key);
+import 'components/body.dart';
+
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(child: Text("message screen"));
+    return Scaffold(
+      appBar: buildAppBar(),
+      body: const Body(),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      title: Row(
+        children: [
+          const BackButton(),
+          const CircleAvatar(
+              //backgroundImage: AssetImage("assets/images/user_2.png"),
+              ),
+          const SizedBox(width: kDefaultPadding * 0.75),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "Kristin Watson",
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                "Active 3m ago",
+                style: TextStyle(fontSize: 12),
+              )
+            ],
+          )
+        ],
+      ),
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.local_phone),
+          onPressed: () {},
+        ),
+        // IconButton(
+        //   icon: const Icon(Icons.videocam),
+        //   onPressed: () {},
+        // ),
+        const SizedBox(width: kDefaultPadding / 2),
+      ],
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/messages/message.dart';
 
-class Messagescreen extends StatelessWidget {
-  const Messagescreen({Key? key}) : super(key: key);
+class ComplaintsAdmin extends StatelessWidget {
+  const ComplaintsAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,10 @@ class Messagescreen extends StatelessWidget {
                   },
                   leading: const CircleAvatar(backgroundColor: Colors.amber),
                   title: const Text("Users name"),
-                  subtitle: const Text("message content"),
+                  subtitle: const Text("Complaint content"),
+                  trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.message_rounded)),
                 )));
   }
 }

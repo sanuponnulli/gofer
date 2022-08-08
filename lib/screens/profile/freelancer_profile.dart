@@ -52,7 +52,14 @@ class FreelancerProfile extends StatelessWidget {
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 25)),
                             const Text("Name@gmail"),
-                            const Text("Rating"),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text("Rating"),
+                                Icon(Icons.star_border_outlined),
+                                Text("4")
+                              ],
+                            ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -166,3 +173,16 @@ class FreelancerProfile extends StatelessWidget {
     );
   }
 }
+
+// import 'package:flutter/src/foundation/key.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter_application_1/screens/profile/client_profile.dart';
+
+// class MyWidget extends StatelessWidget {
+//   const MyWidget({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Clientprofile();
+//   }
+// }

@@ -17,6 +17,7 @@ class HomePageClient extends StatelessWidget {
             valueListenable: as,
             builder: (BuildContext context, int newindex, Widget? _) {
               return BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
                   currentIndex: newindex,
                   onTap: (value) => as.value = value,
                   unselectedItemColor: Colors.grey,

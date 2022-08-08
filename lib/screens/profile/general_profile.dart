@@ -5,7 +5,7 @@ import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dar
 
 import 'client_add_details.dart';
 
-final List<Job> joblist = List.generate(
+final List<Job> gp = List.generate(
     10,
     (index) => Job("title$index", "description$index", "joblocation$index",
         index.toDouble()));
@@ -16,7 +16,6 @@ class Clientprofile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 231, 227, 227),
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
@@ -52,12 +51,12 @@ class Clientprofile extends StatelessWidget {
                             const Text("Name",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 25)),
-                            //const Text("Name@gmail"),
+                            const Text("Name@gmail"),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Text("Rating"),
-                                Icon(Icons.star),
+                                Icon(Icons.star_border_outlined),
                                 Text("4")
                               ],
                             ),
@@ -67,6 +66,18 @@ class Clientprofile extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(kGreen)),
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: ((context) {
+                                        return const ClientAddDetails();
+                                      })));
+                                    },
+                                    child: const Text("Message")),
                                 const SizedBox(
                                   width: 10,
                                 ),
@@ -118,28 +129,7 @@ class Clientprofile extends StatelessWidget {
             ),
             Column(
               children: [
-                Column(
-                  children: [
-                    Card(
-                      elevation: 10,
-                      child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Email Id",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text("name@gmail.com")
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
                 Card(
-                  elevation: 10,
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       child: Column(
@@ -147,52 +137,10 @@ class Clientprofile extends StatelessWidget {
                         children: const [
                           Text(
                             "Heading",
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 25),
                           ),
                           Text(
-                              "The part of the design process that is independent of any specific hardware or software platform is referred to as logical design. During logical design, all functional features of the system chosen for development in analysis phase are described independently of any computer platform. Logical design concentrates on the business aspects of the system and tends to be oriented to a high level of specificity. During logical design of the proposed system, all the "),
-                        ],
-                      )),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Contact Deatails",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text("6258945288")
-                        ],
-                      )),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Company Deatails",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text("Company name"),
-                          Text(
-                              "The part of the design process that is independent of any specific hardware or software platform is referred to as logical design. During logical design, all functional features of the system chosen for development in analysis phase are described independently of any computer platform. Logical design concentrates on the business aspects of the system and tends to be oriented to a high level of specificity. During logical design of the proposed system, all the ")
+                              "elided 4 frames from class _RawReceivePortImpl, class _Timer, and dart:async-patchelided 4 frames from class _RawReceivePortImpl, class _Timer, and dart:async-patch"),
                         ],
                       )),
                 ),
@@ -201,22 +149,21 @@ class Clientprofile extends StatelessWidget {
             ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: joblist.length,
+                itemCount: gp.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    elevation: 5,
                     child: ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: ((context) => JobTemplate(
-                                title: joblist[index].title,
-                                description: joblist[index].description,
-                                joblocation: joblist[index].joblocation,
-                                budget: joblist[index].budget))));
+                                title: gp[index].title,
+                                description: gp[index].description,
+                                joblocation: gp[index].joblocation,
+                                budget: gp[index].budget))));
                       },
                       trailing: const Text("02-04-2022"),
-                      leading: Text(joblist[index].title),
-                      subtitle: Text(joblist[index].description),
+                      leading: Text(gp[index].title),
+                      subtitle: Text(gp[index].description),
                     ),
                   );
                 })

@@ -10,17 +10,16 @@ final List<Job> joblist = List.generate(
     (index) => Job("title$index", "description$index", "joblocation$index",
         index.toDouble()));
 
-class Clientprofile extends StatelessWidget {
-  const Clientprofile({Key? key}) : super(key: key);
+class CommonProfile extends StatelessWidget {
+  const CommonProfile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 231, 227, 227),
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text(
-          "Client",
+          "Freelancer",
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -52,12 +51,15 @@ class Clientprofile extends StatelessWidget {
                             const Text("Name",
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 25)),
-                            //const Text("Name@gmail"),
+                            const Text("Name@gmail"),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Text("Rating"),
-                                Icon(Icons.star),
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
                                 Text("4")
                               ],
                             ),
@@ -67,9 +69,6 @@ class Clientprofile extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
                                 ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:
@@ -81,24 +80,39 @@ class Clientprofile extends StatelessWidget {
                                         return const ClientAddDetails();
                                       })));
                                     },
-                                    child: const Text("Edit Profile")),
+                                    child: const Text("Message")),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.call,
+                                      color: kGreen,
+                                    )),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.flag,
+                                      color: Colors.red,
+                                    ))
+                                // ElevatedButton(
+                                //     style: ButtonStyle(
+                                //         backgroundColor:
+                                //             MaterialStateProperty.all(kGreen)),
+                                //     onPressed: () {
+                                //       Navigator.of(context).push(
+                                //           MaterialPageRoute(
+                                //               builder: ((context) {
+                                //         return const ClientAddDetails();
+                                //       })));
+                                //     },
+                                //     child: const Text("Edit Profile")),
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: InkWell(
-                                child: const Text(
-                                  "Add more Details",
-                                  style: TextStyle(color: kGreen),
-                                ),
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: ((context) {
-                                    return const ClientAddDetails();
-                                  })));
-                                },
-                              ),
-                            )
                           ],
                         ),
                       ),
@@ -118,85 +132,29 @@ class Clientprofile extends StatelessWidget {
             ),
             Column(
               children: [
-                Column(
-                  children: [
-                    Card(
-                      elevation: 10,
-                      child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Email Id",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text("name@gmail.com")
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
                 Card(
-                  elevation: 10,
                   child: Container(
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
                           Text(
-                            "Heading",
-                            style: TextStyle(fontSize: 20),
+                            "About",
+                            style: TextStyle(fontSize: 25),
                           ),
                           Text(
-                              "The part of the design process that is independent of any specific hardware or software platform is referred to as logical design. During logical design, all functional features of the system chosen for development in analysis phase are described independently of any computer platform. Logical design concentrates on the business aspects of the system and tends to be oriented to a high level of specificity. During logical design of the proposed system, all the "),
+                              "elided 4 frames from class _RawReceivePortImpl, class _Timer, and dart:async-patchelided 4 frames from class _RawReceivePortImpl, class _Timer, and dart:async-patch"),
                         ],
                       )),
                 ),
               ],
             ),
-            Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Contact Deatails",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text("6258945288")
-                        ],
-                      )),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  child: Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "Company Deatails",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text("Company name"),
-                          Text(
-                              "The part of the design process that is independent of any specific hardware or software platform is referred to as logical design. During logical design, all functional features of the system chosen for development in analysis phase are described independently of any computer platform. Logical design concentrates on the business aspects of the system and tends to be oriented to a high level of specificity. During logical design of the proposed system, all the ")
-                        ],
-                      )),
-                ),
-              ],
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text("Work history", style: TextStyle(fontSize: 25)),
+              ),
             ),
             ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
@@ -204,7 +162,6 @@ class Clientprofile extends StatelessWidget {
                 itemCount: joblist.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    elevation: 5,
                     child: ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -226,3 +183,16 @@ class Clientprofile extends StatelessWidget {
     );
   }
 }
+
+// import 'package:flutter/src/foundation/key.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter_application_1/screens/profile/client_profile.dart';
+
+// class MyWidget extends StatelessWidget {
+//   const MyWidget({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Clientprofile();
+//   }
+// }

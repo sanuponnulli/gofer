@@ -1,10 +1,19 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
+import 'package:flutter_application_1/screens/addjobs/add_jobs.dart';
+import 'package:flutter_application_1/screens/home/homepage_client.dart';
+import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
+import 'package:flutter_application_1/screens/messages/messages_screen.dart';
+
+import '../proposals/proposals_client.dart';
+import '../search/search_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -14,7 +23,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final items = ["client", "Freelancer"];
+  final items = ["C lient", "Freelancer"];
   String dropdownvalue = "Freelancer";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstname = TextEditingController();
@@ -24,6 +33,13 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _password2 = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = const [
+      SearchScreen(),
+      ClientProposals(),
+      AddJob(),
+      Messagescreen(),
+      SafeArea(child: Text("sss"))
+    ];
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -160,6 +176,7 @@ class _SignUpState extends State<SignUp> {
                                       content: Text("passwords dont match")));
                             } else {
                               log("saved");
+                              signup(pages);
                             }
                           }
                         },
@@ -183,5 +200,35 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  Future signup(List<Widget> pages) async {
+    try {
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _email.text.trim(), password: _password2.text.trim())
+          .then((user) => FirebaseFirestore.instance
+                  .collection("login")
+                  .doc(user.user!.uid)
+                  .set({
+                "name1": _firstname.text,
+                "name2": _lastname.text,
+                "usertype": dropdownvalue,
+                "password": _password2.text,
+                "email": _email.text
+              }))
+          .then((data) => dropdownvalue == "Client"
+              ? Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) {
+                  return HomePageClient(pages: pages, usertype: "Client");
+                }))
+              : Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) {
+                  return const HomepageFreelancer();
+                })));
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      return;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/mystats/my_stats.dart';
 import 'package:flutter_application_1/screens/profile/client_profile.dart';
+import 'package:flutter_application_1/screens/profile/common_profile.dart';
 import 'package:flutter_application_1/screens/profile/freelancer_profile.dart';
 
 class Appdrawer extends StatelessWidget {
@@ -45,14 +46,14 @@ class Appdrawer extends StatelessWidget {
             title: Text("Reports"),
           ),
           const Divider(),
-          const ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: ((context) => const CommonProfile())));
+            },
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
           ),
-          const ListTile(
-            leading: Icon(Icons.question_mark_rounded),
-            title: Text("Help&Support"),
-          )
         ],
       ),
     );

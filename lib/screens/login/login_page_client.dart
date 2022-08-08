@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
+import 'package:flutter_application_1/screens/home/admin_home.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 
 import '../addjobs/add_jobs.dart';
@@ -22,6 +23,7 @@ class ClientLogin extends StatelessWidget {
       Messagescreen(),
       SafeArea(child: Text("sss"))
     ];
+    TextEditingController emailcontroller = TextEditingController();
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -52,8 +54,9 @@ class ClientLogin extends StatelessWidget {
                     const SizedBox(
                       height: 50,
                     ),
-                    const TextFields(
+                    TextFields(
                       hint: 'E mail',
+                      texteditingcontroller: emailcontroller,
                     ),
                     const SizedBox(
                       height: 10,
@@ -67,11 +70,16 @@ class ClientLogin extends StatelessWidget {
                     MaterialButton(
                       shape: roundedRectangleBorder,
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => HomePageClient(
-                                  pages: pages,
-                                  usertype: 'Client',
-                                )));
+                        print(emailcontroller.text);
+                        emailcontroller.text == "admin"
+                            ? Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => const AdminHome()))
+                            : Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => HomePageClient(
+                                      pages: pages,
+                                      usertype: 'Client',
+                                    )));
+
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(builder: (ctx) => HomePage()),
                         //     (Route<dynamic> route) => false);
@@ -129,6 +137,7 @@ class TextFields extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: texteditingcontroller,
       // ignore: body_might_complete_normally_nullable
       validator: (value) {
         log(texteditingcontroller!.value.toString());

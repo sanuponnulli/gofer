@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "999582721065",
+    "project_id": "gofer-2cc2c",
+    "storage_bucket": "gofer-2cc2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999582721065:android:57bbcb666e7640b0952838",
+        "android_client_info": {
+          "package_name": "com.projects.gofer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999582721065-7v163dp5tfrk6nia5b1dcns1thspbahe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4CBNdD-FXTNbh6dEs_-jhMPblAi4mmHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999582721065-7v163dp5tfrk6nia5b1dcns1thspbahe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
