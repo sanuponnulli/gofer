@@ -23,7 +23,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final items = ["C lient", "Freelancer"];
+  final items = ["Client", "Freelancer"];
   String dropdownvalue = "Freelancer";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstname = TextEditingController();

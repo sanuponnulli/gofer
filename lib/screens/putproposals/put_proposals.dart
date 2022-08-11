@@ -67,26 +67,26 @@ class PutProposal extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              "Bid Price",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              // keyboardType: TextInputType.number,
-              // validator: (value) {
-              //   if (value!.isEmpty) {
-              //     return "Enter a valid Password";
-              //   }
-              // },
-              decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: kGreen, width: 2)),
-                  hintText: "Price",
-                  border: OutlineInputBorder()),
-            ),
+            // const Text(
+            //   "Bid Price",
+            //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // TextFormField(
+            //   // keyboardType: TextInputType.number,
+            //   // validator: (value) {
+            //   //   if (value!.isEmpty) {
+            //   //     return "Enter a valid Password";
+            //   //   }
+            //   // },
+            //   decoration: const InputDecoration(
+            //       focusedBorder: OutlineInputBorder(
+            //           borderSide: BorderSide(color: kGreen, width: 2)),
+            //       hintText: "Price",
+            //       border: OutlineInputBorder()),
+            // ),
             const SizedBox(
               height: 30,
             ),

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'app_drawer.dart';
@@ -7,11 +10,15 @@ ValueNotifier<int> as = ValueNotifier(0);
 class HomePageClient extends StatelessWidget {
   final List<Widget> pages;
   final String usertype;
-  const HomePageClient({Key? key, required this.pages, required this.usertype})
+  String? userdata;
+
+  HomePageClient(
+      {Key? key, required this.pages, required this.usertype, this.userdata})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(userdata);
     return Scaffold(
         bottomNavigationBar: ValueListenableBuilder(
             valueListenable: as,
@@ -41,6 +48,7 @@ class HomePageClient extends StatelessWidget {
                   ]);
             }),
         drawer: Appdrawer(
+          name: "Text(",
           usertype: usertype,
         ),
         backgroundColor: Colors.white,

@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/admin_home.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
+import 'package:flutter_application_1/services/firebase_services.dart';
 
 import '../addjobs/add_jobs.dart';
 import '../messages/messages_screen.dart';
@@ -24,6 +27,7 @@ class ClientLogin extends StatelessWidget {
       SafeArea(child: Text("sss"))
     ];
     TextEditingController emailcontroller = TextEditingController();
+    TextEditingController passwordcontroller = TextEditingController();
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -61,7 +65,8 @@ class ClientLogin extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    const TextFields(
+                    TextFields(
+                      texteditingcontroller: passwordcontroller,
                       hint: 'Password',
                     ),
                     const SizedBox(
@@ -69,16 +74,37 @@ class ClientLogin extends StatelessWidget {
                     ),
                     MaterialButton(
                       shape: roundedRectangleBorder,
-                      onPressed: () {
+                      onPressed: () async {
                         print(emailcontroller.text);
-                        emailcontroller.text == "admin"
-                            ? Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => const AdminHome()))
-                            : Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => HomePageClient(
-                                      pages: pages,
-                                      usertype: 'Client',
-                                    )));
+                        await signin(emailcontroller.text.trim(),
+                                passwordcontroller.text.trim(), "Client")
+                            .then((value) {
+                          if (value.runtimeType == String) {
+                            print("sadddafdgfgs$value");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePageClient(
+                                        userdata: value as String,
+                                        pages: pages,
+                                        usertype: "Client")));
+                          } else {
+                            Center(child: SnackBar(content: Text("data")));
+                          }
+                        });
+
+                        // print(emailcontroller.text);
+                        // emailcontroller.text == "admin"
+                        //     ? Navigator.of(context).push(MaterialPageRoute(
+                        //         builder: (ctx) => const AdminHome()))
+                        //     : Navigator.of(context).push(
+                        //         MaterialPageRoute(
+                        //           builder: (ctx) => HomePageClient(
+                        //             pages: pages,
+                        //             usertype: 'Client',
+                        //           ),
+                        //         ),
+                        //       );
 
                         // Navigator.of(context).pushAndRemoveUntil(
                         //     MaterialPageRoute(builder: (ctx) => HomePage()),

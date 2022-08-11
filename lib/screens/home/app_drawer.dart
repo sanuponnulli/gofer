@@ -6,21 +6,26 @@ import 'package:flutter_application_1/screens/profile/freelancer_profile.dart';
 
 class Appdrawer extends StatelessWidget {
   final String usertype;
-  const Appdrawer({Key? key, required this.usertype}) : super(key: key);
+  final String name;
+  const Appdrawer({
+    Key? key,
+    required this.usertype,
+    required this.name,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
         children: [
-          const DrawerHeader(
+          DrawerHeader(
               decoration: BoxDecoration(color: Colors.white),
               child: ListTile(
                 subtitle: Text(
                   "Client",
                 ),
                 title: Text(
-                  "Name",
+                  name,
                   style: TextStyle(fontSize: 20),
                 ),
                 leading: CircleAvatar(
