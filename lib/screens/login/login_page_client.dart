@@ -1,11 +1,8 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
-import 'package:flutter_application_1/screens/home/admin_home.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
 
@@ -14,9 +11,16 @@ import '../messages/messages_screen.dart';
 import '../proposals/proposals_client.dart';
 import '../search/search_screen.dart';
 
-class ClientLogin extends StatelessWidget {
+class ClientLogin extends StatefulWidget {
   const ClientLogin({Key? key}) : super(key: key);
 
+  @override
+  State<ClientLogin> createState() => _ClientLoginState();
+}
+
+bool isloading = false;
+
+class _ClientLoginState extends State<ClientLogin> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = const [
@@ -28,6 +32,44 @@ class ClientLogin extends StatelessWidget {
     ];
     TextEditingController emailcontroller = TextEditingController();
     TextEditingController passwordcontroller = TextEditingController();
+
+    @override
+    void dispose() {
+      emailcontroller.dispose();
+      passwordcontroller.dispose();
+      super.dispose();
+    }
+
+    void login() async {
+      // setState(() {
+      //   isloading = true;
+      // });
+      //print(isloading);
+
+      bool value = await signin(emailcontroller.text.trim(),
+          passwordcontroller.text.trim(), "Client");
+
+      if (value) {
+        //print(isloading);
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    HomePageClient(pages: pages, usertype: "Client")));
+      } else {
+        const Center(
+          child: SnackBar(
+            content: Text("Some error occured try again"),
+            backgroundColor: Colors.amber,
+          ),
+        );
+        setState(() {
+          isloading = false;
+        });
+      }
+    }
+
     return Scaffold(
       backgroundColor: kGreen,
       body: SafeArea(
@@ -75,51 +117,44 @@ class ClientLogin extends StatelessWidget {
                     MaterialButton(
                       shape: roundedRectangleBorder,
                       onPressed: () async {
-                        print(emailcontroller.text);
-                        await signin(emailcontroller.text.trim(),
-                                passwordcontroller.text.trim(), "Client")
-                            .then((value) {
-                          if (value.runtimeType == String) {
-                            print("sadddafdgfgs$value");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePageClient(
-                                        userdata: value as String,
-                                        pages: pages,
-                                        usertype: "Client")));
-                          } else {
-                            Center(child: SnackBar(content: Text("data")));
-                          }
+                        setState(() {
+                          isloading = true;
                         });
-
-                        // print(emailcontroller.text);
-                        // emailcontroller.text == "admin"
-                        //     ? Navigator.of(context).push(MaterialPageRoute(
-                        //         builder: (ctx) => const AdminHome()))
-                        //     : Navigator.of(context).push(
-                        //         MaterialPageRoute(
-                        //           builder: (ctx) => HomePageClient(
-                        //             pages: pages,
-                        //             usertype: 'Client',
-                        //           ),
-                        //         ),
-                        //       );
-
-                        // Navigator.of(context).pushAndRemoveUntil(
-                        //     MaterialPageRoute(builder: (ctx) => HomePage()),
-                        //     (Route<dynamic> route) => false);
+                        bool value = await signin(emailcontroller.text.trim(),
+                            passwordcontroller.text.trim(), "Client");
+                        if (value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePageClient(
+                                      pages: pages, usertype: "Client")));
+                        } else {
+                          const Center(
+                            child: SnackBar(
+                              content: Text("Some error occured try again"),
+                              backgroundColor: Colors.amber,
+                            ),
+                          );
+                        }
+                        setState(() {
+                          isloading = false;
+                        });
                       },
                       minWidth: 380,
                       height: 50,
                       color: kGreen,
-                      child: const Text(
-                        "Log In",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                      child: isloading
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text(
+                              "Log In ",
+                              style: TextStyle(color: Colors.white),
+                            ),
                     ),
-                    const SizedBox(
+                    Container(
                       height: 400,
+                      // color: isloading ? Colors.amber : Colors.black,
                     ),
                   ],
                 ),

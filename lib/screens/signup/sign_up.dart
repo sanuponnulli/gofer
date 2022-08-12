@@ -208,7 +208,7 @@ class _SignUpState extends State<SignUp> {
           .createUserWithEmailAndPassword(
               email: _email.text.trim(), password: _password2.text.trim())
           .then((user) => FirebaseFirestore.instance
-                  .collection("login")
+                  .collection(dropdownvalue)
                   .doc(user.user!.uid)
                   .set({
                 "name1": _firstname.text,

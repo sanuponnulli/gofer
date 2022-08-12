@@ -10,15 +10,12 @@ ValueNotifier<int> as = ValueNotifier(0);
 class HomePageClient extends StatelessWidget {
   final List<Widget> pages;
   final String usertype;
-  String? userdata;
 
-  HomePageClient(
-      {Key? key, required this.pages, required this.usertype, this.userdata})
+  HomePageClient({Key? key, required this.pages, required this.usertype})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(userdata);
     return Scaffold(
         bottomNavigationBar: ValueListenableBuilder(
             valueListenable: as,
