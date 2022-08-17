@@ -1,38 +1,76 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/profile/common_profile.dart';
 
 class TopJobcontainer extends StatelessWidget {
-  const TopJobcontainer({
-    Key? key,
-  }) : super(key: key);
+  const TopJobcontainer({Key? key, required this.uid}) : super(key: key);
+
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        decoration: BoxDecoration(
-            color: kcontainercolor, borderRadius: BorderRadius.circular(10)),
-        height: 150,
-        width: 120,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://cdn.britannica.com/51/190751-050-147B93F7/soccer-ball-goal.jpg?q=60"),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Name")
-                ],
-              ),
-            )
-          ],
+    return GestureDetector(
+      onTap: (() => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => CommonProfile(
+                    id: uid,
+                    usertype: 'Client',
+                  )),
+            ),
+          )),
+      child: Card(
+        child: Container(
+          decoration: BoxDecoration(
+              color: kcontainercolor, borderRadius: BorderRadius.circular(10)),
+          height: 150,
+          width: 120,
+          child: StreamBuilder<Object>(
+              stream: FirebaseFirestore.instance
+                  .collection("Client")
+                  .doc(uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                // = model.User(
+                //     email: "", password: "", usertype: "", name1: "", name2: "");
+                late model.User data1;
+
+                if (snapshot.hasData) {
+                  data1 =
+                      model.User.fromsnap(snapshot.data as DocumentSnapshot);
+                  print(data1.phonenumber);
+                }
+                return !snapshot.hasData
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: kGreen,
+                      ))
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                data1.file != ''
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(data1.file))
+                                    : const CircleAvatar(
+                                        backgroundColor: Colors.amber,
+                                      ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(data1.name1)
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+              }),
         ),
       ),
     );
@@ -40,36 +78,67 @@ class TopJobcontainer extends StatelessWidget {
 }
 
 class TopFlancercontainer extends StatelessWidget {
-  const TopFlancercontainer({
-    Key? key,
-  }) : super(key: key);
+  final String uid;
+  const TopFlancercontainer({Key? key, required this.uid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-        height: 170,
-        width: 300,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: const [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://cdn.britannica.com/51/190751-050-147B93F7/soccer-ball-goal.jpg?q=60"),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text("Name")
-                ],
-              ),
-            )
-          ],
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: ((context) => CommonProfile(
+                      id: uid,
+                      usertype: 'Freelancer',
+                    )))),
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+          height: 170,
+          width: 300,
+          child: StreamBuilder<Object>(
+              stream: FirebaseFirestore.instance
+                  .collection("Freelancer")
+                  .doc(uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                late model.User data1;
+
+                if (snapshot.hasData) {
+                  print("snapshot has data in widget$snapshot");
+                  data1 =
+                      model.User.fromsnap(snapshot.data as DocumentSnapshot);
+                  //print(data1.phonenumber);
+                }
+                return !snapshot.hasData
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: kGreen,
+                      ))
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                data1.file != ''
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(data1.file))
+                                    : CircleAvatar(
+                                        backgroundColor: Colors.amber,
+                                      ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Text(data1.name1)
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+              }),
         ),
       ),
     );

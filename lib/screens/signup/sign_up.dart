@@ -211,6 +211,7 @@ class _SignUpState extends State<SignUp> {
                   .collection(dropdownvalue)
                   .doc(user.user!.uid)
                   .set({
+                "uid": user.user!.uid,
                 "name1": _firstname.text,
                 "name2": _lastname.text,
                 "usertype": dropdownvalue,

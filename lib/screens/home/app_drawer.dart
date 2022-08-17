@@ -7,11 +7,15 @@ import 'package:flutter_application_1/screens/profile/freelancer_profile.dart';
 class Appdrawer extends StatelessWidget {
   final String usertype;
   final String name;
-  const Appdrawer({
-    Key? key,
-    required this.usertype,
-    required this.name,
-  }) : super(key: key);
+  final String uid;
+  final String file;
+  const Appdrawer(
+      {Key? key,
+      required this.usertype,
+      required this.name,
+      required this.uid,
+      this.file = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +23,29 @@ class Appdrawer extends StatelessWidget {
       child: Column(
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(color: Colors.white),
               child: ListTile(
-                subtitle: Text(
+                subtitle: const Text(
                   "Client",
                 ),
                 title: Text(
                   name,
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
-                leading: CircleAvatar(
-                  backgroundColor: Colors.amber,
-                ),
+                leading: file == ""
+                    ? const CircleAvatar(
+                        backgroundColor: Colors.amber,
+                      )
+                    : CircleAvatar(
+                        backgroundImage: NetworkImage(file),
+                      ),
               )),
           ListTile(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (ctx) => usertype == "Client"
-                    ? const Clientprofile()
+                    ? Clientprofile(
+                        uid: uid,
+                      )
                     : const FreelancerProfile())),
             leading: const Icon(Icons.person),
             title: const Text("Profile"),
@@ -54,7 +64,10 @@ class Appdrawer extends StatelessWidget {
           ListTile(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => const CommonProfile())));
+                  builder: ((context) => const CommonProfile(
+                        id: "",
+                        usertype: 'Client',
+                      ))));
             },
             leading: const Icon(Icons.settings),
             title: const Text("Settings"),

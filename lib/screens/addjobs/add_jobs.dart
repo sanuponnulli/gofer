@@ -1,14 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // ignore: implementation_imports
 
 import '../../constants/colors.dart';
 
 class AddJob extends StatefulWidget {
-  const AddJob({Key? key}) : super(key: key);
+  const AddJob({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddJob> createState() => _AddJobState();
 }
+
+TextEditingController title = TextEditingController();
+TextEditingController description = TextEditingController();
+TextEditingController location = TextEditingController();
+TextEditingController budget = TextEditingController();
 
 class _AddJobState extends State<AddJob> {
   DateTime? _selecteddate;
@@ -32,6 +40,7 @@ class _AddJobState extends State<AddJob> {
               children: [
                 Flexible(
                   child: TextFormField(
+                      controller: title,
                       decoration: const InputDecoration(
                           hintText: "Job title",
                           focusedBorder: OutlineInputBorder(
@@ -73,6 +82,7 @@ class _AddJobState extends State<AddJob> {
               height: 30,
             ),
             TextFormField(
+                controller: description,
                 maxLines: 5,
                 decoration: const InputDecoration(
                     hintText: "Job Description",
@@ -87,6 +97,7 @@ class _AddJobState extends State<AddJob> {
                 Flexible(
                   flex: 1,
                   child: TextFormField(
+                      controller: location,
                       decoration: const InputDecoration(
                           hintText: "Job Location",
                           focusedBorder: OutlineInputBorder(
@@ -105,6 +116,7 @@ class _AddJobState extends State<AddJob> {
               children: [
                 Flexible(
                   child: TextFormField(
+                      controller: location,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           hintText: "Budget",

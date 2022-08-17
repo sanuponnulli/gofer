@@ -40,35 +40,35 @@ class _ClientLoginState extends State<ClientLogin> {
       super.dispose();
     }
 
-    void login() async {
-      // setState(() {
-      //   isloading = true;
-      // });
-      //print(isloading);
+    // void login() async {
+    //   // setState(() {
+    //   //   isloading = true;
+    //   // });
+    //   //print(isloading);
 
-      bool value = await signin(emailcontroller.text.trim(),
-          passwordcontroller.text.trim(), "Client");
+    //   bool value = await signin(emailcontroller.text.trim(),
+    //       passwordcontroller.text.trim(), "Client");
 
-      if (value) {
-        //print(isloading);
+    //   if (value) {
+    //     //print(isloading);
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    HomePageClient(pages: pages, usertype: "Client")));
-      } else {
-        const Center(
-          child: SnackBar(
-            content: Text("Some error occured try again"),
-            backgroundColor: Colors.amber,
-          ),
-        );
-        setState(() {
-          isloading = false;
-        });
-      }
-    }
+    //     Navigator.push(
+    //         context,
+    //         MaterialPageRoute(
+    //             builder: (context) =>
+    //                 HomePageClient(pages: pages, usertype: "Client")));
+    //   } else {
+    //     const Center(
+    //       child: SnackBar(
+    //         content: Text("Some error occured try again"),
+    //         backgroundColor: Colors.amber,
+    //       ),
+    //     );
+    //     setState(() {
+    //       isloading = false;
+    //     });
+    //   }
+    // }
 
     return Scaffold(
       backgroundColor: kGreen,

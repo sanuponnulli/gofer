@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/models/user.dart' as models;
-import 'package:flutter_application_1/screens/home/homepage_client.dart';
 
 Future signin(String email, String password, String usertype) async {
   try {
@@ -47,10 +46,37 @@ class UserMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<models.User> getUserDetails() async {
+  Future<models.User> getUserDetails(String usertype) async {
     User currentuser = _auth.currentUser!;
     DocumentSnapshot snap =
-        await _firestore.collection("User").doc(currentuser.uid).get();
+        await _firestore.collection(usertype).doc(currentuser.uid).get();
     return models.User.fromsnap(snap);
   }
+
+  Future<bool> addUserdetails(String usertype, models.User userdata) async {
+    try {
+      User currentuser = _auth.currentUser!;
+      FirebaseFirestore.instance
+          .collection(usertype)
+          .doc(currentuser.uid)
+          .set(userdata.tojson());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
+// try {
+//       FirebaseAuth.instance
+//           .createUserWithEmailAndPassword(
+//               email: _email.text.trim(), password: _password2.text.trim())
+//           .then((user) => FirebaseFirestore.instance
+//                   .collection(dropdownvalue)
+//                   .doc(user.user!.uid)
+//                   .set({
+//                 "name1": _firstname.text,
+//                 "name2": _lastname.text,
+//                 "usertype": dropdownvalue,
+//                 "password": _password2.text,
+//                 "email": _email.text
+//               }))
