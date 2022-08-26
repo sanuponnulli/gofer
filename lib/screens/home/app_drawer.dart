@@ -25,8 +25,8 @@ class Appdrawer extends StatelessWidget {
           DrawerHeader(
               decoration: const BoxDecoration(color: Colors.white),
               child: ListTile(
-                subtitle: const Text(
-                  "Client",
+                subtitle: Text(
+                  usertype,
                 ),
                 title: Text(
                   name,
@@ -46,7 +46,9 @@ class Appdrawer extends StatelessWidget {
                     ? Clientprofile(
                         uid: uid,
                       )
-                    : const FreelancerProfile())),
+                    : FreelancerProfile(
+                        uid: uid,
+                      ))),
             leading: const Icon(Icons.person),
             title: const Text("Profile"),
           ),

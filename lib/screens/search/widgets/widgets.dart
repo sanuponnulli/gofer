@@ -35,41 +35,48 @@ class TopJobcontainer extends StatelessWidget {
               builder: (context, snapshot) {
                 // = model.User(
                 //     email: "", password: "", usertype: "", name1: "", name2: "");
-                late model.User data1;
+                //late model.User data1;
 
                 if (snapshot.hasData) {
-                  data1 =
+                  model.User data1 =
                       model.User.fromsnap(snapshot.data as DocumentSnapshot);
                   print(data1.phonenumber);
+
+                  return !snapshot.hasData || data1 == null
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                          color: kGreen,
+                        ))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  data1.file != ''
+                                      ? CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(data1.file))
+                                      : const CircleAvatar(
+                                          backgroundColor: Colors.amber,
+                                        ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(data1.name1)
+                                ],
+                              ),
+                            )
+                          ],
+                        );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: kGreen,
+                    ),
+                  );
                 }
-                return !snapshot.hasData
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                        color: kGreen,
-                      ))
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                data1.file != ''
-                                    ? CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(data1.file))
-                                    : const CircleAvatar(
-                                        backgroundColor: Colors.amber,
-                                      ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(data1.name1)
-                              ],
-                            ),
-                          )
-                        ],
-                      );
               }),
         ),
       ),

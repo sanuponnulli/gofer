@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -26,57 +28,101 @@ class ClientProposals extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              ListView.separated(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      subtitle: const Text("Freelancer profile name"),
-                      title: SizedBox(
-                        height: 200,
-                        child: ListView(
-                          children: const [
-                            Text("Description"),
-                            Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum")
-                          ],
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("proposals")
+                      .where("client",
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kGreen,
                         ),
-                      ),
-                      trailing: IconButton(
-                        color: kGreen,
-                        icon: const Icon(Icons.check),
-                        onPressed: () {},
-                      ),
-                      leading: Column(children: const [
-                        Text(
-                          "Bid Price",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      );
+                    } else {
+                      return ListView.separated(
+                          itemBuilder: (context, index) {
+                            return !snapshot.data!.docs[index]["accept"]
+                                ? ListTile(
+                                    subtitle: Text(
+                                        snapshot.data!.docs[index]["fname"]),
+                                    title: SizedBox(
+                                      height: 200,
+                                      child: ListView(
+                                        children: [
+                                          const Text("Description"),
+                                          Text(snapshot.data!.docs[index]
+                                              ["description"])
+                                        ],
+                                      ),
+                                    ),
+                                    trailing: IconButton(
+                                      color: kGreen,
+                                      icon: const Icon(Icons.check),
+                                      onPressed: () async {
+                                        await FirebaseFirestore.instance
+                                            .collection("proposals")
+                                            .doc(snapshot.data!.docs[index].id)
+                                            .update({"accept": true});
+                                      },
+                                    ),
+                                    leading: Column(children: [
+                                      const Text(
+                                        "Bid Price",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(snapshot.data!.docs[index]["price"]),
+                                    ]),
+                                  )
+                                : const SizedBox();
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemCount: snapshot.data!.docs.length);
+                    }
+                  }),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("proposals")
+                      .where("client",
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kGreen,
                         ),
-                        Text("Rs 500"),
-                      ]),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                  itemCount: 20),
-              ListView.separated(
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: const Text("freelancer name"),
-                      leading: const Text("Job title"),
-                      trailing: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.check),
-                          label: const Text("job complete PAY")),
-                      //     trailing: IconButton(
-                      //   onPressed: () {},
-                      //   icon: Icon(Icons.check),
-                      // )
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                  itemCount: 20)
+                      );
+                    } else {
+                      return ListView.separated(
+                          itemBuilder: (context, index) {
+                            return snapshot.data!.docs[index]["accept"]
+                                ? ListTile(
+                                    title: Text(
+                                        snapshot.data!.docs[index]["fname"]),
+                                    leading: const Text("Job title"),
+                                    trailing: ElevatedButton.icon(
+                                        onPressed: () {},
+                                        icon: const Icon(Icons.check),
+                                        label: const Text("job complete PAY")),
+                                    //     trailing: IconButton(
+                                    //   onPressed: () {},
+                                    //   icon: Icon(Icons.check),
+                                    // )
+                                  )
+                                : const SizedBox();
+                          },
+                          separatorBuilder: (context, index) {
+                            return const Divider();
+                          },
+                          itemCount: snapshot.data!.docs.length);
+                    }
+                  })
             ],
           ),
         ));

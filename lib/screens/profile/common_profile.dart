@@ -5,13 +5,16 @@ import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
+import 'package:flutter_application_1/screens/messages/message.dart';
+import 'package:flutter_application_1/screens/messages/messages_screen.dart';
+import 'package:flutter_application_1/screens/profile/complaint_registration.dart';
 
 import 'client_add_details.dart';
 
 final List<Job> joblist = List.generate(
     10,
     (index) => Job("title$index", "description$index", "joblocation$index",
-        index.toDouble()));
+        index, DateTime.now()));
 
 class CommonProfile extends StatelessWidget {
   final String id;
@@ -43,11 +46,11 @@ class CommonProfile extends StatelessWidget {
               //     email: "", password: "", usertype: "", name1: "", name2: "");
               if (snapshot.hasData) {
                 data1 = model.User.fromsnap(snapshot.data as DocumentSnapshot);
-                print(data1.phonenumber);
+                //print(data1.phonenumber);
               }
               return !snapshot.hasData
-                  ? Center(
-                      child: const CircularProgressIndicator(
+                  ? const Center(
+                      child: CircularProgressIndicator(
                       color: kGreen,
                     ))
                   : Column(
@@ -106,7 +109,7 @@ class CommonProfile extends StatelessWidget {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: ((context) {
-                                                    return const ClientAddDetails();
+                                                    return ChatScreen();
                                                   })));
                                                 },
                                                 child: const Text("Message")),
@@ -123,7 +126,17 @@ class CommonProfile extends StatelessWidget {
                                               width: 10,
                                             ),
                                             IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ComplaintRegister(
+                                                                uid: id,
+                                                                usertype:
+                                                                    usertype,
+                                                              )));
+                                                },
                                                 icon: const Icon(
                                                   Icons.flag,
                                                   color: Colors.red,
@@ -195,27 +208,63 @@ class CommonProfile extends StatelessWidget {
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: joblist.length,
+                            itemCount: data1.jobs.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: ((context) => JobTemplate(
-                                                title: joblist[index].title,
-                                                description:
-                                                    joblist[index].description,
-                                                joblocation:
-                                                    joblist[index].joblocation,
-                                                budget:
-                                                    joblist[index].budget))));
-                                  },
-                                  trailing: const Text("02-04-2022"),
-                                  leading: Text(joblist[index].title),
-                                  subtitle: Text(joblist[index].description),
-                                ),
-                              );
+                              final List jid = data1.jobs;
+                              return StreamBuilder<Object>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection("jobs")
+                                      .doc(jid[index])
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    late Map<String, dynamic> dd;
+                                    if (snapshot.hasData) {
+                                      DocumentSnapshot daat =
+                                          snapshot.data as DocumentSnapshot;
+                                      dd = daat.data() as Map<String, dynamic>;
+                                    }
+                                    // print(dd);
+                                    return !snapshot.hasData
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                                color: Colors.amber),
+                                          )
+                                        : Card(
+                                            child: ListTile(
+                                              onTap: () {
+                                                //print(dd["deadline"].date());
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            JobTemplate(
+                                                              title:
+                                                                  dd["title"],
+                                                              description: dd[
+                                                                  "description"],
+                                                              joblocation: dd[
+                                                                  "location"],
+                                                              budget:
+                                                                  dd["budget"],
+                                                              jobid:
+                                                                  dd["jobid"],
+                                                              date: dd[
+                                                                      "deadline"]
+                                                                  .toDate()
+                                                                  .toString(),
+                                                              user: dd["user"],
+                                                            ))));
+                                              },
+                                              trailing: Text(DateTime.parse(
+                                                      dd["deadline"]
+                                                          .toDate()
+                                                          .toString())
+                                                  .toString()
+                                                  .split(" ")[0]),
+                                              leading: Text(dd["title"]),
+                                              subtitle: Text(dd["description"]),
+                                            ),
+                                          );
+                                  });
                             })
                       ],
                     );

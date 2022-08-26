@@ -9,6 +9,7 @@ import 'app_drawer.dart';
 
 ValueNotifier<int> as = ValueNotifier(0);
 UserMethods a = UserMethods();
+String currentusertype = '';
 
 class HomePageClient extends StatefulWidget {
   final List<Widget> pages;
@@ -46,6 +47,9 @@ class _HomePageClientState extends State<HomePageClient> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      currentusertype = widget.usertype;
+    });
     return Scaffold(
         bottomNavigationBar: ValueListenableBuilder(
             valueListenable: as,

@@ -2,7 +2,9 @@ class Job {
   final String title;
   final String description;
   final String joblocation;
-  final double budget;
+  final int budget;
+  final DateTime deadline;
 
-  const Job(this.title, this.description, this.joblocation, this.budget);
+  const Job(this.title, this.description, this.joblocation, this.budget,
+      this.deadline);
 }

@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
+import 'package:flutter_application_1/screens/home/admin_home.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
 
@@ -115,6 +117,19 @@ class _ClientLoginState extends State<ClientLogin> {
                       height: 30,
                     ),
                     MaterialButton(
+                      onLongPress: () async {
+                        if (emailcontroller.text == "admin@gmail.com") {
+                          await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: emailcontroller.text,
+                                  password: passwordcontroller.text)
+                              .then((value) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AdminHome())));
+                        }
+                      },
                       shape: roundedRectangleBorder,
                       onPressed: () async {
                         setState(() {

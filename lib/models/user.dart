@@ -12,6 +12,7 @@ class User {
   String companyname;
   String companydetails;
   String file;
+  List jobs;
   User(
       {required this.email,
       required this.name1,
@@ -23,7 +24,8 @@ class User {
       this.phonenumber = 'no data',
       this.companyname = 'no data',
       this.companydetails = 'no data',
-      this.file = ""});
+      this.file = "",
+      this.jobs = const []});
 
   Map<String, dynamic> tojson() => {
         "email": email,
@@ -52,6 +54,7 @@ class User {
         phonenumber: snap["phone"] ?? "",
         companyname: snap["companyname"] ?? "",
         uid: snap["uid"],
+        jobs: snap["jobs"] ?? [],
         file: snap["file"] ?? "");
   }
 }

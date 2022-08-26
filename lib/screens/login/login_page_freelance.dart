@@ -3,9 +3,27 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
+import 'package:flutter_application_1/services/firebase_services.dart';
 
-class FreelanceLogin extends StatelessWidget {
+class FreelanceLogin extends StatefulWidget {
   const FreelanceLogin({Key? key}) : super(key: key);
+
+  @override
+  State<FreelanceLogin> createState() => _FreelanceLoginState();
+}
+
+bool isloading = false;
+
+class _FreelanceLoginState extends State<FreelanceLogin> {
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+
+  @override
+  void dispose() {
+    emailcontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +61,15 @@ class FreelanceLogin extends StatelessWidget {
                   const SizedBox(
                     height: 50,
                   ),
-                  const TextFields(
+                  TextFields(
+                    texteditingcontroller: emailcontroller,
                     hint: 'E mail',
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const TextFields(
+                  TextFields(
+                    texteditingcontroller: passwordcontroller,
                     hint: 'Password',
                   ),
                   const SizedBox(
@@ -57,10 +77,31 @@ class FreelanceLogin extends StatelessWidget {
                   ),
                   MaterialButton(
                     shape: roundedRectangleBorder,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => const HomepageFreelancer())));
+                    onPressed: () async {
+                      setState(() {
+                        isloading = true;
+                      });
+                      bool value = await signin(emailcontroller.text.trim(),
+                          passwordcontroller.text.trim(), "Freelancer");
+                      if (value) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) =>
+                                const HomepageFreelancer())));
+                      } else {
+                        const Center(
+                          child: SnackBar(
+                            content: Text("Some error occured try again"),
+                            backgroundColor: Colors.amber,
+                          ),
+                        );
+                      }
+                      setState(() {
+                        isloading = false;
+                      });
                     },
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: ((context) => const HomepageFreelancer())));
+
                     minWidth: 380,
                     height: 50,
                     color: kGreen,

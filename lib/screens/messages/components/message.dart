@@ -15,16 +15,11 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget messageContaint(ChatMessage message) {
-      switch (message.messageType) {
-        case ChatMessageType.text:
-          return TextMessage(message: message);
-        // case ChatMessageType.audio:
-        //   return AudioMessage(message: message);
-        // case ChatMessageType.video:
-        //   return VideoMessage();
-        default:
-          return const SizedBox();
-      }
+      return TextMessage(message: message);
+      // case ChatMessageType.audio:
+      //   return AudioMessage(message: message);
+      // case ChatMessageType.video:
+      //   return VideoMessage();
     }
 
     return Padding(

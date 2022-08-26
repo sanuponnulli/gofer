@@ -1,3 +1,5 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 class Chat {
   final String name, lastMessage, image, time;
   final bool isActive;

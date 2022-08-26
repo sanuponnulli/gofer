@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // ignore: implementation_imports
 
@@ -19,6 +20,16 @@ TextEditingController location = TextEditingController();
 TextEditingController budget = TextEditingController();
 
 class _AddJobState extends State<AddJob> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // title.dispose();
+    // description.dispose();
+    // location.dispose();
+    // budget.dispose();
+    super.dispose();
+  }
+
   DateTime? _selecteddate;
   @override
   Widget build(BuildContext context) {
@@ -52,9 +63,9 @@ class _AddJobState extends State<AddJob> {
                       final selecteddatetemp = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
-                          firstDate:
-                              DateTime.now().subtract(const Duration(days: 30)),
-                          lastDate: DateTime.now());
+                          firstDate: DateTime.now(),
+                          lastDate:
+                              DateTime.now().add(const Duration(days: 180)));
                       if (selecteddatetemp == null) {
                         return;
                       }
@@ -116,7 +127,7 @@ class _AddJobState extends State<AddJob> {
               children: [
                 Flexible(
                   child: TextFormField(
-                      controller: location,
+                      controller: budget,
                       keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           hintText: "Budget",
@@ -151,7 +162,51 @@ class _AddJobState extends State<AddJob> {
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                //print(_selecteddate);
+                if (title.text != '' &&
+                    description.text != '' &&
+                    _selecteddate != null &&
+                    location.text != '' &&
+                    budget.text != '') {
+                  DateTime now = DateTime.now();
+                  DocumentReference ref =
+                      FirebaseFirestore.instance.collection("jobs").doc();
+                  await ref.set({
+                    "user": FirebaseAuth.instance.currentUser!.uid,
+                    "title": title.text,
+                    "deadline": _selecteddate,
+                    "description": description.text,
+                    "budget": int.parse(budget.text),
+                    "location": location.text.toUpperCase(),
+                    "jobid": ref.id,
+                    "time": DateTime(now.year, now.month, now.day)
+                  }).catchError((onError) => print(onError));
+                  // .then((value) => );
+                  await FirebaseFirestore.instance
+                      .collection("Client")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .update({
+                    "jobs": FieldValue.arrayUnion([ref.id])
+                  }).catchError((onError) => print(onError));
+                  const snackBar = SnackBar(
+                      backgroundColor: kGreen,
+                      content: Text('succesfully Added job'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                  title.clear();
+                  _selecteddate = null;
+                  description.clear();
+                  budget.clear();
+                  location.clear();
+                } else {
+                  const snackBar = SnackBar(
+                    content: Text('Please Enter all Data'),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(kGreen)),
               child: const Text("   Post Job    "),

@@ -12,10 +12,10 @@ import 'package:image_picker/image_picker.dart';
 
 import 'client_add_details.dart';
 
-final List<Job> joblist = List.generate(
-    10,
-    (index) => Job("title$index", "description$index", "joblocation$index",
-        index.toDouble()));
+// final List<Job> joblist = List.generate(
+//     10,
+//     (index) => Job("title$index", "description$index", "joblocation$index",
+//         index, DateTime.now()));
 
 class Clientprofile extends StatefulWidget {
   const Clientprofile({Key? key, required, required this.uid})
@@ -134,7 +134,9 @@ class _ClientprofileState extends State<Clientprofile> {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: ((context) {
-                                                    return const ClientAddDetails();
+                                                    return const ClientAddDetails(
+                                                      usertype: 'Client',
+                                                    );
                                                   })));
                                                 },
                                                 child:
@@ -152,7 +154,9 @@ class _ClientprofileState extends State<Clientprofile> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: ((context) {
-                                                return const ClientAddDetails();
+                                                return const ClientAddDetails(
+                                                  usertype: 'Client',
+                                                );
                                               })));
                                             },
                                           ),
@@ -281,33 +285,92 @@ class _ClientprofileState extends State<Clientprofile> {
                                     ],
                                   )),
                             ),
+                            Text(
+                              "Jobs",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 25),
+                            )
                           ],
                         ),
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: joblist.length,
+                            itemCount: data1.jobs.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: ((context) => JobTemplate(
-                                                title: joblist[index].title,
-                                                description:
-                                                    joblist[index].description,
-                                                joblocation:
-                                                    joblist[index].joblocation,
-                                                budget:
-                                                    joblist[index].budget))));
-                                  },
-                                  trailing: const Text("02-04-2022"),
-                                  leading: Text(joblist[index].title),
-                                  subtitle: Text(joblist[index].description),
-                                ),
-                              );
+                              final List jid = data1.jobs;
+                              // print(jid.length);
+                              // List<Map<String, dynamic>> _udata = [];
+                              // for (var id in jid) {
+                              //   //Future<DocumentSnapshot> udata =
+                              //   FirebaseFirestore.instance
+                              //       .collection("jobs")
+                              //       .doc(id)
+                              //       .get()
+                              //       .then((value) {
+                              //     _udata.add(
+                              //         value.data() as Map<String, dynamic>);
+                              //   });
+                              //   // _udata
+                              //   //     .add(udata.);
+                              // }
+                              // print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+                              // print(_udata);
+
+                              return StreamBuilder<Object>(
+                                  stream: FirebaseFirestore.instance
+                                      .collection("jobs")
+                                      .doc(jid[index])
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    late Map<String, dynamic> dd;
+                                    if (snapshot.hasData) {
+                                      DocumentSnapshot daat =
+                                          snapshot.data as DocumentSnapshot;
+                                      dd = daat.data() as Map<String, dynamic>;
+                                    }
+                                    // print(dd);
+                                    return !snapshot.hasData
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                                color: Colors.amber),
+                                          )
+                                        : Card(
+                                            elevation: 5,
+                                            child: ListTile(
+                                              onTap: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            JobTemplate(
+                                                              title:
+                                                                  dd["title"],
+                                                              description: dd[
+                                                                  "description"],
+                                                              joblocation: dd[
+                                                                  "location"],
+                                                              budget:
+                                                                  dd["budget"],
+                                                              jobid:
+                                                                  dd["jobid"],
+                                                              date: dd[
+                                                                      "deadline"]
+                                                                  .toDate()
+                                                                  .toString(),
+                                                              user: dd["user"],
+                                                              l: data1.jobs,
+                                                            ))));
+                                              },
+                                              trailing: Text(DateTime.parse(
+                                                      dd["deadline"]
+                                                          .toDate()
+                                                          .toString())
+                                                  .toString()
+                                                  .split(" ")[0]),
+                                              leading: Text(dd["title"]),
+                                              subtitle: Text(dd["description"]),
+                                            ),
+                                          );
+                                  });
                             })
                       ],
                     );

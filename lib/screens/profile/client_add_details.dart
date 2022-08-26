@@ -7,7 +7,8 @@ import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import '../../constants/colors.dart';
 
 class ClientAddDetails extends StatelessWidget {
-  const ClientAddDetails({Key? key}) : super(key: key);
+  const ClientAddDetails({Key? key, required this.usertype}) : super(key: key);
+  final String usertype;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class ClientAddDetails extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   FirebaseFirestore.instance
-                      .collection("Client")
+                      .collection(usertype)
                       .doc(FirebaseAuth.instance.currentUser!.uid)
                       .update({
                     if (about.text != "") "about": about.text,
