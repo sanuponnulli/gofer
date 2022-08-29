@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/models/chat.dart';
 import 'package:flutter_application_1/models/user.dart' as model;
 
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
+import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
 import 'package:flutter_application_1/screens/messages/message.dart';
 import 'package:flutter_application_1/screens/messages/messages_screen.dart';
@@ -109,7 +112,20 @@ class CommonProfile extends StatelessWidget {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: ((context) {
-                                                    return ChatScreen();
+                                                    return ChatScreen(
+                                                      fromid: FirebaseAuth
+                                                          .instance
+                                                          .currentUser!
+                                                          .uid,
+                                                      fromtype: currentusertype,
+                                                      participants: [
+                                                        FirebaseAuth.instance
+                                                            .currentUser!.uid,
+                                                        id
+                                                      ],
+                                                      toid: id,
+                                                      totype: usertype,
+                                                    );
                                                   })));
                                                 },
                                                 child: const Text("Message")),

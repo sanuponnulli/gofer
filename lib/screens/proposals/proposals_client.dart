@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/services/firebase_services.dart';
 
 class ClientProposals extends StatelessWidget {
   const ClientProposals({Key? key}) : super(key: key);
@@ -105,11 +106,42 @@ class ClientProposals extends StatelessWidget {
                                 ? ListTile(
                                     title: Text(
                                         snapshot.data!.docs[index]["fname"]),
-                                    leading: const Text("Job title"),
-                                    trailing: ElevatedButton.icon(
-                                        onPressed: () {},
-                                        icon: const Icon(Icons.check),
-                                        label: const Text("job complete PAY")),
+                                    leading: Text(
+                                        snapshot.data!.docs[index]["jobtitle"]),
+                                    trailing: snapshot.data!.docs[index]
+                                                ["status"] ==
+                                            "paid"
+                                        ? ElevatedButton(
+                                            onPressed: () {},
+                                            child: Text("paid"))
+                                        : ElevatedButton.icon(
+                                            onPressed: () async {
+                                              UserMethods userMethods =
+                                                  UserMethods();
+                                              bool result =
+                                                  await userMethods.pay(
+                                                      int.parse(snapshot
+                                                              .data!.docs[index]
+                                                          ["price"]),
+                                                      snapshot
+                                                          .data!.docs[index].id,
+                                                      snapshot.data!.docs[index]
+                                                          ["freelancer"]);
+                                              result
+                                                  ? ScaffoldMessenger.of(
+                                                          context)
+                                                      .showSnackBar(SnackBar(
+                                                          content:
+                                                              Text("succes")))
+                                                  : ScaffoldMessenger.of(
+                                                          context)
+                                                      .showSnackBar(SnackBar(
+                                                          content:
+                                                              Text("failed")));
+                                            },
+                                            icon: const Icon(Icons.check),
+                                            label: Text(
+                                                "PAY Rs.${snapshot.data!.docs[index]["price"]}")),
                                     //     trailing: IconButton(
                                     //   onPressed: () {},
                                     //   icon: Icon(Icons.check),

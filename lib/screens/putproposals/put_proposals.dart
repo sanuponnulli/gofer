@@ -5,10 +5,15 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/addjobs/add_jobs.dart';
 
 class PutProposal extends StatelessWidget {
-  const PutProposal({Key? key, required this.jobid, required this.clientid})
+  const PutProposal(
+      {Key? key,
+      required this.jobid,
+      required this.clientid,
+      required this.jobtitle})
       : super(key: key);
   final String jobid;
   final String clientid;
+  final String jobtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -103,32 +108,38 @@ class PutProposal extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                print("object");
+                // print("object");
                 FirebaseFirestore.instance
                     .collection("Freelancer")
                     .doc(FirebaseAuth.instance.currentUser!.uid)
                     .get()
                     .then((value) {
                   final user = value.data() as Map<String, dynamic>;
-                  FirebaseFirestore.instance
-                      .collection("proposals")
-                      .doc()
-                      .set({
-                        "description": description.text,
-                        "price": price.text,
-                        "jobid": jobid,
-                        "time": DateTime.now(),
-                        "freelancer": FirebaseAuth.instance.currentUser!.uid,
-                        "client": clientid,
-                        "status": "unpaid",
-                        "accept": false,
-                        "fname": user["name1"]
-                      })
-                      .then((value) => Navigator.pop(context))
-                      .onError((error, stackTrace) =>
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text("Some error occured"))));
+                  if (user["approved"]) {
+                    FirebaseFirestore.instance
+                        .collection("proposals")
+                        .doc()
+                        .set({
+                          "description": description.text,
+                          "price": price.text,
+                          "jobid": jobid,
+                          "time": DateTime.now(),
+                          "freelancer": FirebaseAuth.instance.currentUser!.uid,
+                          "client": clientid,
+                          "status": "unpaid",
+                          "accept": false,
+                          "fname": user["name1"],
+                          "jobtitle": jobtitle
+                        })
+                        .then((value) => Navigator.pop(context))
+                        .onError((error, stackTrace) =>
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text("Some error occured"))));
+                  } else {
+                    return ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Some error occured")));
+                  }
                 });
               },
               style: ButtonStyle(

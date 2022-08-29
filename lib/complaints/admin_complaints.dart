@@ -44,10 +44,10 @@ class ComplaintsAdmin extends StatelessWidget {
                                       //print(snapshot2.data!.data()["phone"]);
                                       return ListTile(
                                         onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: ((context) =>
-                                                      const ChatScreen())));
+                                          // Navigator.of(context).push(
+                                          //     MaterialPageRoute(
+                                          //         builder: ((context) =>
+                                          //             const ChatScreen())));
                                         },
                                         leading: CircleAvatar(
                                             backgroundImage: NetworkImage(

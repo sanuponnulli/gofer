@@ -11,8 +11,8 @@ class Messagescreen extends StatelessWidget {
             15,
             (index) => ListTile(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: ((context) => const ChatScreen())));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: ((context) => const ChatScreen())));
                   },
                   leading: const CircleAvatar(backgroundColor: Colors.amber),
                   title: const Text("Users name"),

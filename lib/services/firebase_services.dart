@@ -65,6 +65,65 @@ class UserMethods {
       return false;
     }
   }
+
+  Future<bool> pay(int amount, String proposalid, String freelancerid) async {
+    try {
+      DateTime now = DateTime.now();
+      print("aaaaaaaaaaa");
+      final clientbalance = await FirebaseFirestore.instance
+          .collection("wallet")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((value) {
+        final balance = value.data() as Map;
+        return balance["balance"];
+      });
+      print("qqqqqqqq");
+      await FirebaseFirestore.instance
+          .collection("wallet")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        "balance": clientbalance - amount,
+        "transaction": FieldValue.arrayUnion([
+          {
+            "amount": amount.toString(),
+            "date":
+                DateTime(now.year, now.month, now.day, now.hour, now.minute),
+            "type": false
+          }
+        ])
+      }).then((value) => FirebaseFirestore.instance
+              .collection("proposals")
+              .doc(proposalid)
+              .update({"status": "paid"}));
+      final freelancerbalance = await FirebaseFirestore.instance
+          .collection("wallet")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get()
+          .then((value) {
+        final balance = value.data() as Map;
+        return balance["balance"];
+      });
+      await FirebaseFirestore.instance
+          .collection("wallet")
+          .doc(freelancerid)
+          .update({
+        "balance": freelancerbalance + amount,
+        "transaction": FieldValue.arrayUnion([
+          {
+            "amount": amount.toString(),
+            "date":
+                DateTime(now.year, now.month, now.day, now.hour, now.minute),
+            "type": true
+          }
+        ])
+      });
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
 }
 // try {
 //       FirebaseAuth.instance

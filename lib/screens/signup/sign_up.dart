@@ -216,8 +216,13 @@ class _SignUpState extends State<SignUp> {
                 "name2": _lastname.text,
                 "usertype": dropdownvalue,
                 "password": _password2.text,
-                "email": _email.text
+                "email": _email.text,
+                "approved": false
               }))
+          .then((value) => FirebaseFirestore.instance
+              .collection("wallet")
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .set({"balance": 0}))
           .then((data) => dropdownvalue == "Client"
               ? Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) {

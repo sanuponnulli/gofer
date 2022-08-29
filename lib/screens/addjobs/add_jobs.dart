@@ -164,48 +164,60 @@ class _AddJobState extends State<AddJob> {
             ElevatedButton(
               onPressed: () async {
                 //print(_selecteddate);
-                if (title.text != '' &&
-                    description.text != '' &&
-                    _selecteddate != null &&
-                    location.text != '' &&
-                    budget.text != '') {
-                  DateTime now = DateTime.now();
-                  DocumentReference ref =
-                      FirebaseFirestore.instance.collection("jobs").doc();
-                  await ref.set({
-                    "user": FirebaseAuth.instance.currentUser!.uid,
-                    "title": title.text,
-                    "deadline": _selecteddate,
-                    "description": description.text,
-                    "budget": int.parse(budget.text),
-                    "location": location.text.toUpperCase(),
-                    "jobid": ref.id,
-                    "time": DateTime(now.year, now.month, now.day)
-                  }).catchError((onError) => print(onError));
-                  // .then((value) => );
-                  await FirebaseFirestore.instance
-                      .collection("Client")
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .update({
-                    "jobs": FieldValue.arrayUnion([ref.id])
-                  }).catchError((onError) => print(onError));
-                  const snackBar = SnackBar(
-                      backgroundColor: kGreen,
-                      content: Text('succesfully Added job'));
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                FirebaseFirestore.instance
+                    .collection("Client")
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .get()
+                    .then((value) async {
+                  final user = value.data() as Map<String, dynamic>;
+                  if (user["approved"]) {
+                    if (title.text != '' &&
+                        description.text != '' &&
+                        _selecteddate != null &&
+                        location.text != '' &&
+                        budget.text != '') {
+                      DateTime now = DateTime.now();
+                      DocumentReference ref =
+                          FirebaseFirestore.instance.collection("jobs").doc();
+                      await ref.set({
+                        "user": FirebaseAuth.instance.currentUser!.uid,
+                        "title": title.text,
+                        "deadline": _selecteddate,
+                        "description": description.text,
+                        "budget": int.parse(budget.text),
+                        "location": location.text.toUpperCase(),
+                        "jobid": ref.id,
+                        "time": DateTime(now.year, now.month, now.day)
+                      }).catchError((onError) => print(onError));
+                      // .then((value) => );
+                      await FirebaseFirestore.instance
+                          .collection("Client")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .update({
+                        "jobs": FieldValue.arrayUnion([ref.id])
+                      }).catchError((onError) => print(onError));
+                      const snackBar = SnackBar(
+                          backgroundColor: kGreen,
+                          content: Text('succesfully Added job'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                  title.clear();
-                  _selecteddate = null;
-                  description.clear();
-                  budget.clear();
-                  location.clear();
-                } else {
-                  const snackBar = SnackBar(
-                    content: Text('Please Enter all Data'),
-                  );
+                      title.clear();
+                      _selecteddate = null;
+                      description.clear();
+                      budget.clear();
+                      location.clear();
+                    } else {
+                      const snackBar = SnackBar(
+                        content: Text('Please Enter all Data'),
+                      );
 
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("NOt APPROVED")));
+                  }
+                }).catchError((error, stackTrace) => print("error12"));
               },
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(kGreen)),

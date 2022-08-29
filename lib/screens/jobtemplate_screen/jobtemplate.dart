@@ -234,6 +234,7 @@ class JobTemplate extends StatelessWidget {
                                     builder: (context) => PutProposal(
                                           clientid: user,
                                           jobid: jobid,
+                                          jobtitle: title,
                                         )));
                           } else {
                             const snackBar = SnackBar(

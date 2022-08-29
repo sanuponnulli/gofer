@@ -53,8 +53,8 @@ class Appdrawer extends StatelessWidget {
             title: const Text("Profile"),
           ),
           ListTile(
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (ctx) => const MyStats())),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => MyStats(usertype: usertype, id: uid))),
             leading: const Icon(Icons.query_stats),
             title: const Text("My stats"),
           ),

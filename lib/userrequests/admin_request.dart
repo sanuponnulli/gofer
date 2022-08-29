@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -6,16 +7,72 @@ class Requestpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return const AcceptReject();
-              },
-              separatorBuilder: (context, index) {
-                return const Divider();
-              },
-              itemCount: 20)),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: const TabBar(labelColor: Colors.black, tabs: [
+          Tab(
+            text: "freelancer",
+          ),
+          Tab(
+            text: "client",
+          )
+        ]),
+        body: SafeArea(
+            child: TabBarView(
+          children: [
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Freelancer")
+                    .where("approved", isEqualTo: false)
+                    .snapshots(),
+                builder: (context, snapshot1) {
+                  if (snapshot1.hasData) {
+                    return ListView.separated(
+                        itemBuilder: (context, index) {
+                          return AcceptReject(
+                            email: snapshot1.data!.docs[index]["email"],
+                            id: snapshot1.data!.docs[index]["uid"],
+                            name: snapshot1.data!.docs[index]["name1"],
+                            usertype: snapshot1.data!.docs[index]["usertype"],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemCount: snapshot1.data!.docs.length);
+                  } else {
+                    return const Text("no data!!");
+                  }
+                }),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Client")
+                    .where("approved", isEqualTo: false)
+                    .snapshots(),
+                builder: (context, snapshot2) {
+                  if (snapshot2.hasData) {
+                    return ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return AcceptReject(
+                            email: snapshot2.data!.docs[index]["email"],
+                            id: snapshot2.data!.docs[index]["uid"],
+                            name: snapshot2.data!.docs[index]["name1"],
+                            usertype: snapshot2.data!.docs[index]["usertype"],
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                        itemCount: snapshot2.data!.docs.length);
+                  } else {
+                    return const Text("no data!!");
+                  }
+                }),
+          ],
+        )),
+      ),
     );
   }
 }
@@ -23,7 +80,15 @@ class Requestpage extends StatelessWidget {
 class AcceptReject extends StatelessWidget {
   const AcceptReject({
     Key? key,
+    required this.name,
+    required this.email,
+    required this.id,
+    required this.usertype,
   }) : super(key: key);
+  final String name;
+  final String email;
+  final String id;
+  final String usertype;
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +108,16 @@ class AcceptReject extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "username",
+                  name,
                   style: TextStyle(fontSize: 20),
                 ),
                 Text(
-                  "Gmail",
+                  email,
                   style: TextStyle(fontSize: 20),
                 ),
+                Text(usertype)
               ],
             ),
           ),
@@ -59,7 +125,14 @@ class AcceptReject extends StatelessWidget {
             width: 50,
           ),
           Column(children: [
-            ElevatedButton(onPressed: () {}, child: const Text("Accept")),
+            ElevatedButton(
+                onPressed: () async {
+                  FirebaseFirestore.instance
+                      .collection(usertype)
+                      .doc(id)
+                      .update({"approved": true});
+                },
+                child: const Text("Accept")),
             ElevatedButton(
               onPressed: () {},
               style: ButtonStyle(
