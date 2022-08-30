@@ -6,35 +6,20 @@ import 'package:flutter_application_1/models/chatmessages.dart';
 import 'components/body.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen(
-      {Key? key,
-      required this.fromid,
-      required this.toid,
-      required this.fromtype,
-      required this.totype,
-      required this.participants})
-      : super(key: key);
-  final String fromid, toid, fromtype, totype;
-  final List<String> participants;
+  const ChatScreen({
+    Key? key,
+    required this.chatRoomId,
+  }) : super(key: key);
+  final String chatRoomId;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection("messages")
-            .where("participants", isEqualTo: participants)
-            .snapshots(),
-        builder: (context, snapshot) {
-          print(snapshot.data!.docs);
-          return Scaffold(
-            appBar: buildAppBar(),
-            body: snapshot.data!.docs == []
-                ? Body(
-                    messageid: "",
-                  )
-                : Body(messageid: "messageid"),
-          );
-        });
+    return Scaffold(
+      appBar: buildAppBar(),
+      body: Body(
+        messageid: chatRoomId,
+      ),
+    );
   }
 }
 

@@ -124,6 +124,45 @@ class UserMethods {
       return false;
     }
   }
+
+  Future<bool> addChatRoom(chatRoom, chatRoomId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("chatRoom")
+          .doc(chatRoomId)
+          .set(chatRoom, SetOptions(merge: true));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  getChats(String chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy('time')
+        .snapshots();
+  }
+
+  Future<void> addMessage(String chatRoomId, chatMessageData) async {
+    FirebaseFirestore.instance
+        .collection("chatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .add(chatMessageData)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getUserChats(String itIsMyName) async {
+    return await FirebaseFirestore.instance
+        .collection("chatRoom")
+        .where('users', arrayContains: itIsMyName)
+        .snapshots();
+  }
 }
 // try {
 //       FirebaseAuth.instance

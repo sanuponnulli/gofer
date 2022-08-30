@@ -8,9 +8,11 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
+import 'package:flutter_application_1/screens/messages/chat.dart';
 import 'package:flutter_application_1/screens/messages/message.dart';
 import 'package:flutter_application_1/screens/messages/messages_screen.dart';
 import 'package:flutter_application_1/screens/profile/complaint_registration.dart';
+import 'package:flutter_application_1/services/firebase_services.dart';
 
 import 'client_add_details.dart';
 
@@ -28,6 +30,34 @@ class CommonProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserMethods userMethods = UserMethods();
+    getChatRoomId(String a, String b) {
+      if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+        return "$b\_$a";
+      } else {
+        return "$a\_$b";
+      }
+    }
+
+    sendMessage(String useridd) {
+      List<String> users = [FirebaseAuth.instance.currentUser!.uid, useridd];
+
+      String chatRoomId =
+          getChatRoomId(FirebaseAuth.instance.currentUser!.uid, useridd);
+
+      Map<String, dynamic> chatRoom = {
+        "users": users,
+        "chatRoomId": chatRoomId,
+      };
+
+      userMethods.addChatRoom(chatRoom, chatRoomId);
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChatScreennnnn(chatRoomId: chatRoomId)));
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -109,24 +139,7 @@ class CommonProfile extends StatelessWidget {
                                                         MaterialStateProperty
                                                             .all(kGreen)),
                                                 onPressed: () {
-                                                  Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: ((context) {
-                                                    return ChatScreen(
-                                                      fromid: FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .uid,
-                                                      fromtype: currentusertype,
-                                                      participants: [
-                                                        FirebaseAuth.instance
-                                                            .currentUser!.uid,
-                                                        id
-                                                      ],
-                                                      toid: id,
-                                                      totype: usertype,
-                                                    );
-                                                  })));
+                                                  sendMessage(id);
                                                 },
                                                 child: const Text("Message")),
                                             const SizedBox(
