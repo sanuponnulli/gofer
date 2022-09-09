@@ -24,7 +24,9 @@ class TopJobcontainer extends StatelessWidget {
       child: Card(
         child: Container(
           decoration: BoxDecoration(
-              color: kcontainercolor, borderRadius: BorderRadius.circular(10)),
+              border: Border.all(width: 1, color: kGreen),
+              color: kcontainercolor,
+              borderRadius: BorderRadius.circular(10)),
           height: 150,
           width: 120,
           child: StreamBuilder<Object>(
@@ -64,9 +66,20 @@ class TopJobcontainer extends StatelessWidget {
                                   const SizedBox(
                                     width: 10,
                                   ),
-                                  Text(data1.name1)
+                                  Text(
+                                    data1.name1,
+                                  ),
                                 ],
                               ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: data1.about.length > 89
+                                  ? Text(
+                                      "${data1.about.substring(0, 89)}..",
+                                      style: TextStyle(),
+                                    )
+                                  : Text(""),
                             )
                           ],
                         );
@@ -100,7 +113,10 @@ class TopFlancercontainer extends StatelessWidget {
                       usertype: 'Freelancer',
                     )))),
         child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1, color: kGreen),
+          ),
           height: 170,
           width: 300,
           child: StreamBuilder<Object>(
@@ -133,7 +149,7 @@ class TopFlancercontainer extends StatelessWidget {
                                     ? CircleAvatar(
                                         backgroundImage:
                                             NetworkImage(data1.file))
-                                    : CircleAvatar(
+                                    : const CircleAvatar(
                                         backgroundColor: Colors.amber,
                                       ),
                                 const SizedBox(
@@ -142,7 +158,16 @@ class TopFlancercontainer extends StatelessWidget {
                                 Text(data1.name1)
                               ],
                             ),
-                          )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: data1.about.length > 100
+                                ? Text(
+                                    "${data1.about.substring(0, 100)}..",
+                                    style: TextStyle(),
+                                  )
+                                : Text(""),
+                          ),
                         ],
                       );
               }),
@@ -170,6 +195,10 @@ class SearchResultJobTile extends StatelessWidget {
     return Card(
       // ignore: avoid_unnecessary_containers
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(width: 1, color: kGreen),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -182,20 +211,23 @@ class SearchResultJobTile extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 250,
-                        child: Text(
-                          title,
-                          style: const TextStyle(
-                              color: kGreen,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                                color: kGreen,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.save),
-                    onPressed: () {},
-                  )
+                  // IconButton(
+                  //   icon: const Icon(Icons.save),
+                  //   onPressed: () {},
+                  // )
                 ],
               ),
               const SizedBox(
@@ -203,7 +235,7 @@ class SearchResultJobTile extends StatelessWidget {
               ),
               Row(
                 children: const [
-                  Text("posted 24m ago", style: TextStyle(color: Colors.grey))
+                  // Text("posted 24m ago", style: TextStyle(color: Colors.grey))
                 ],
               ),
               const SizedBox(
@@ -245,14 +277,14 @@ class SearchResultJobTile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Text("tag", style: TextStyle(color: Colors.grey)),
-                  Text("tag2", style: TextStyle(color: Colors.grey)),
-                  Text("tag3", style: TextStyle(color: Colors.grey))
-                ],
-              )
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: const [
+              //     Text("tag", style: TextStyle(color: Colors.grey)),
+              //     Text("tag2", style: TextStyle(color: Colors.grey)),
+              //     Text("tag3", style: TextStyle(color: Colors.grey))
+              //   ],
+              // )
             ],
           ),
         ),

@@ -64,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: TextStyle(fontSize: 25),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     child: LimitedBox(
                         maxHeight: 200,
                         child: FutureBuilder<Object>(
@@ -82,7 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       data.length,
                                       (index) => Padding(
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 5),
+                                                horizontal: 2),
                                             child: TopJobcontainer(
                                                 uid: data[index]),
                                           )),
@@ -106,7 +106,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: TextStyle(fontSize: 25),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: LimitedBox(
                     maxHeight: 200,
                     child: FutureBuilder<Object>(
@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   data.length,
                                   (index) => Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
+                                          horizontal: 2),
                                       child: TopFlancercontainer(
                                         uid: data[index],
                                       ))),
@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               scrollDirection: Axis.horizontal,
                               children: List.generate(
                                   3,
-                                  (index) => Padding(
+                                  (index) => const Padding(
                                         padding:
                                             EdgeInsets.symmetric(horizontal: 5),
                                         child: TopJobcontainer(uid: "Error"),
@@ -205,7 +205,7 @@ class _SearchScreenState extends State<SearchScreen> {
             onSubmitted: (data) {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: ((context) => SearchResult(
-                        location: data,
+                        location: data.toUpperCase(),
                       ))));
               // print("searchworking $data");
             },

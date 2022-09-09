@@ -38,7 +38,7 @@ class _SignUpState extends State<SignUp> {
       ClientProposals(),
       AddJob(),
       Messagescreen(),
-      SafeArea(child: Text("sss"))
+      //SafeArea(child: Text("sss"))
     ];
     return Scaffold(
       backgroundColor: kGreen,

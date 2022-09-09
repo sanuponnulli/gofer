@@ -74,8 +74,8 @@ class _HomePageClientState extends State<HomePageClient> {
                           icon: Icon(Icons.money), label: "Wallet"),
                     const BottomNavigationBarItem(
                         icon: Icon(Icons.message), label: "Messages"),
-                    const BottomNavigationBarItem(
-                        icon: Icon(Icons.alarm), label: "alerts")
+                    // const BottomNavigationBarItem(
+                    //     icon: Icon(Icons.alarm), label: "alerts")
                   ]);
             }),
         drawer: StreamBuilder<Object>(
@@ -100,7 +100,8 @@ class _HomePageClientState extends State<HomePageClient> {
                 );
               } else {
                 return const Drawer(
-                  child: CircularProgressIndicator(color: kGreen),
+                  child:
+                      Center(child: CircularProgressIndicator(color: kGreen)),
                 );
               }
             }),

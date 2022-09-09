@@ -12,6 +12,15 @@ class SearchResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            "Search Results",
+            style: TextStyle(color: kGreen),
+          ),
+        ),
+      ),
       body: SafeArea(
           child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
@@ -24,35 +33,46 @@ class SearchResult extends StatelessWidget {
                     color: kGreen,
                   );
                 } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: ((context, index) => ListTile(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => JobTemplate(
-                                          title: snapshot.data!.docs[index]
-                                              ["title"],
-                                          description: snapshot
-                                              .data!.docs[index]["description"],
-                                          joblocation: snapshot
-                                              .data!.docs[index]["location"],
-                                          budget: snapshot.data!.docs[index]
-                                              ["budget"],
-                                          jobid: snapshot.data!.docs[index]
-                                              ["jobid"],
-                                          date: snapshot
-                                              .data!.docs[index]["deadline"]
-                                              .toDate()
-                                              .toString(),
-                                          user: snapshot.data!.docs[index]
-                                              ["user"])));
-                            },
-                            title: Text(snapshot.data!.docs[index]['title']),
-                            trailing:
-                                Text(snapshot.data!.docs[index]['location']),
-                          )));
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 50, horizontal: 10),
+                    child: ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: ((context, index) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(width: 1, color: kGreen),
+                              ),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => JobTemplate(
+                                              title: snapshot.data!.docs[index]
+                                                  ["title"],
+                                              description: snapshot.data!
+                                                  .docs[index]["description"],
+                                              joblocation: snapshot.data!
+                                                  .docs[index]["location"],
+                                              budget: snapshot.data!.docs[index]
+                                                  ["budget"],
+                                              jobid: snapshot.data!.docs[index]
+                                                  ["jobid"],
+                                              date: snapshot
+                                                  .data!.docs[index]["deadline"]
+                                                  .toDate()
+                                                  .toString(),
+                                              user: snapshot.data!.docs[index]
+                                                  ["user"])));
+                                },
+                                title:
+                                    Text(snapshot.data!.docs[index]['title']),
+                                trailing: Text(
+                                    snapshot.data!.docs[index]['location']),
+                              ),
+                            ))),
+                  );
                 }
               })),
     );

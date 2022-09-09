@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/home/homepage_client.dart';
 
 class FreelancerWallet extends StatelessWidget {
   const FreelancerWallet({Key? key}) : super(key: key);
@@ -38,16 +42,33 @@ class FreelancerWallet extends StatelessWidget {
                         "Total Balance",
                         style: TextStyle(color: Colors.white),
                       ),
-                      const Text("\$2455.5",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                          )),
+                      StreamBuilder<DocumentSnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("wallet")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final wallet =
+                                  snapshot.data!.data() as Map<String, dynamic>;
+                              return Text("Rs.${wallet["balance"].toString()}",
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ));
+                            } else {
+                              return const Text("0",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 30,
+                                  ));
+                            }
+                          }),
                       const SizedBox(
                         height: 50,
                       ),
                       Row(
-                        children: [
+                        children: const [
                           // MaterialButton(
                           //   shape: RoundedRectangleBorder(
                           //       borderRadius: BorderRadius.circular(10.0),
@@ -59,20 +80,20 @@ class FreelancerWallet extends StatelessWidget {
                           //     style: TextStyle(color: kGreen),
                           //   ),
                           // ),
-                          const SizedBox(
+                          SizedBox(
                             width: 20,
                           ),
-                          MaterialButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: const BorderSide(color: Colors.green)),
-                            color: Colors.red,
-                            onPressed: () {},
-                            child: const Text(
-                              "Withdraw",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                          // MaterialButton(
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(10.0),
+                          //       side: const BorderSide(color: Colors.green)),
+                          //   color: Colors.red,
+                          //   onPressed: () {},
+                          //   child: const Text(
+                          //     "Withdraw",
+                          //     style: TextStyle(color: Colors.white),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -106,25 +127,71 @@ class JobHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        itemBuilder: (ctx, index) {
-          return ListTile(
-            // tileColor: kGreen,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-              side: const BorderSide(
-                color: kGreen,
-              ),
-            ),
-            hoverColor: kGreen,
-            leading: const CircleAvatar(
-              backgroundColor: Colors.amber,
-            ),
-          );
-        },
-        separatorBuilder: (ctx, index) {
-          return const Divider();
-        },
-        itemCount: 10);
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("proposals")
+            .where("freelancer",
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .where("status", isEqualTo: "paid")
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: Text("Fetching data..."),
+            );
+          } else {
+            return ListView.separated(
+                itemBuilder: (ctx, index) {
+                  final jobid = snapshot.data!.docs[index]["jobid"];
+                  final jobprice = snapshot.data!.docs[index]["price"];
+                  return StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("jobs")
+                          .doc(jobid)
+                          .snapshots(),
+                      builder: (context, snap2) {
+                        if (!snap2.hasData) {
+                          return const Center(
+                            child: Text("Fetching..."),
+                          );
+                        } else {
+                          final jobdata =
+                              snap2.data!.data() as Map<String, dynamic>;
+                          // print(jobdata);
+                          return ListTile(
+                            // tileColor: kGreen,
+                            title: Text(
+                              jobdata["title"],
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            trailing: Text(
+                              jobprice ?? "",
+                              style: TextStyle(fontSize: 25),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: const BorderSide(
+                                color: kGreen,
+                              ),
+                            ),
+                            hoverColor: kGreen,
+                            // title: Text(jobdata["jobtitle"]),
+                            leading: const CircleAvatar(
+                              child: Icon(
+                                Icons.work,
+                                color: kGreen,
+                              ),
+                              backgroundColor: Colors.white,
+                            ),
+                          );
+                        }
+                      });
+                },
+                separatorBuilder: (ctx, index) {
+                  return const Divider();
+                },
+                itemCount: snapshot.data!.docs.length);
+          }
+        });
   }
 }

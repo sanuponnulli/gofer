@@ -30,7 +30,8 @@ class _ClientLoginState extends State<ClientLogin> {
       ClientProposals(),
       AddJob(),
       Messagescreen(),
-      SafeArea(child: Text("sss"))
+      // SafeArea(child: Text("sss")
+      // )
     ];
     TextEditingController emailcontroller = TextEditingController();
     TextEditingController passwordcontroller = TextEditingController();

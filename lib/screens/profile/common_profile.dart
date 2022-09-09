@@ -48,6 +48,7 @@ class CommonProfile extends StatelessWidget {
       Map<String, dynamic> chatRoom = {
         "users": users,
         "chatRoomId": chatRoomId,
+        "usertype": {users[0]: currentusertype, users[1]: usertype}
       };
 
       userMethods.addChatRoom(chatRoom, chatRoomId);

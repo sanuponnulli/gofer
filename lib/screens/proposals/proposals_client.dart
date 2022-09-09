@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/profile/common_profile.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
 
 class ClientProposals extends StatelessWidget {
@@ -38,8 +39,10 @@ class ClientProposals extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(
-                        child: CircularProgressIndicator(
-                          color: kGreen,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: kGreen,
+                          ),
                         ),
                       );
                     } else {
@@ -47,8 +50,22 @@ class ClientProposals extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return !snapshot.data!.docs[index]["accept"]
                                 ? ListTile(
-                                    subtitle: Text(
-                                        snapshot.data!.docs[index]["fname"]),
+                                    subtitle: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CommonProfile(
+                                                        id: snapshot.data!
+                                                                .docs[index]
+                                                            ["freelancer"],
+                                                        usertype:
+                                                            "Freelancer")));
+                                      },
+                                      child: Text(
+                                          snapshot.data!.docs[index]["fname"]),
+                                    ),
                                     title: SizedBox(
                                       height: 200,
                                       child: ListView(
@@ -95,8 +112,10 @@ class ClientProposals extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return const Center(
-                        child: CircularProgressIndicator(
-                          color: kGreen,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: kGreen,
+                          ),
                         ),
                       );
                     } else {

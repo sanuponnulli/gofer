@@ -42,19 +42,35 @@ class User {
       };
 
   static User fromsnap(DocumentSnapshot snapshot) {
-    var snap = snapshot.data() as Map<String, dynamic>;
-    return User(
-        email: snap["email"],
-        name1: snap["name1"],
-        name2: snap["name2"],
-        password: snap["password"],
-        usertype: snap["usertype"],
-        about: snap["about"] ?? "",
-        companydetails: snap["companydetails"] ?? "",
-        phonenumber: snap["phone"] ?? "",
-        companyname: snap["companyname"] ?? "",
-        uid: snap["uid"],
-        jobs: snap["jobs"] ?? [],
-        file: snap["file"] ?? "");
+    if (snapshot.data() != null) {
+      var snap = snapshot.data() as Map<String, dynamic>;
+      return User(
+          email: snap["email"],
+          name1: snap["name1"],
+          name2: snap["name2"],
+          password: snap["password"],
+          usertype: snap["usertype"],
+          about: snap["about"] ?? "",
+          companydetails: snap["companydetails"] ?? "",
+          phonenumber: snap["phone"] ?? "",
+          companyname: snap["companyname"] ?? "",
+          uid: snap["uid"],
+          jobs: snap["jobs"] ?? [],
+          file: snap["file"] ?? "");
+    } else {
+      return User(
+          email: "",
+          name1: "",
+          name2: "",
+          password: "",
+          usertype: "",
+          about: "",
+          companydetails: "",
+          phonenumber: "",
+          companyname: "",
+          uid: "",
+          jobs: [],
+          file: "");
+    }
   }
 }

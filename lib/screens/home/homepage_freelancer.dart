@@ -16,7 +16,7 @@ class HomepageFreelancer extends StatelessWidget {
       Freelancerproposals(),
       FreelancerWallet(),
       Messagescreen(),
-      SafeArea(child: Text("sss"))
+      //SafeArea(child: Text("sss"))
     ];
     return HomePageClient(pages: freelancerpages, usertype: "Freelancer");
   }

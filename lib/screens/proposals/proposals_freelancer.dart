@@ -2,12 +2,45 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/messages/chat.dart';
+import 'package:flutter_application_1/services/firebase_services.dart';
+
+import '../home/homepage_client.dart';
 
 class Freelancerproposals extends StatelessWidget {
   const Freelancerproposals({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    UserMethods userMethods = UserMethods();
+    getChatRoomId(String a, String b) {
+      if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+        return "$b\_$a";
+      } else {
+        return "$a\_$b";
+      }
+    }
+
+    sendMessage(String useridd) {
+      List<String> users = [FirebaseAuth.instance.currentUser!.uid, useridd];
+
+      String chatRoomId =
+          getChatRoomId(FirebaseAuth.instance.currentUser!.uid, useridd);
+
+      Map<String, dynamic> chatRoom = {
+        "users": users,
+        "chatRoomId": chatRoomId,
+        "usertype": {users[0]: currentusertype, users[1]: "Client"}
+      };
+
+      userMethods.addChatRoom(chatRoom, chatRoomId);
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChatScreennnnn(chatRoomId: chatRoomId)));
+    }
+
     return DefaultTabController(
         initialIndex: 1,
         length: 2,
@@ -36,8 +69,10 @@ class Freelancerproposals extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return const CircularProgressIndicator(
-                        color: kGreen,
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kGreen,
+                        ),
                       );
                     } else {
                       return ListView.separated(
@@ -84,8 +119,10 @@ class Freelancerproposals extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
-                      return const CircularProgressIndicator(
-                        color: kGreen,
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: kGreen,
+                        ),
                       );
                     } else {
                       return ListView.separated(
@@ -96,7 +133,10 @@ class Freelancerproposals extends StatelessWidget {
                                         ["description"]),
                                     leading: const Text("Job title"),
                                     trailing: ElevatedButton.icon(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          sendMessage(snapshot.data!.docs[index]
+                                              ["client"]);
+                                        },
                                         icon: const Icon(Icons.check),
                                         label: const Text("Message Client")),
                                     subtitle: Row(

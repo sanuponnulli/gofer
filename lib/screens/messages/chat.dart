@@ -65,6 +65,7 @@ class _ChatScreennnnnState extends State<ChatScreennnnn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.amber,
       appBar: AppBar(),
       body: Container(
         child: Stack(
@@ -73,31 +74,43 @@ class _ChatScreennnnnState extends State<ChatScreennnnn> {
             Container(
               alignment: Alignment.bottomCenter,
               width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                color: Color(0x54FFFFFF),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                      controller: messageEditingController,
-                      decoration: InputDecoration(
-                          hintText: "Message ...",
-                          hintStyle: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none),
-                    )),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          addMessage();
-                        },
-                        child: Icon(Icons.send)),
-                  ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: kGreen,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(50))),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        controller: messageEditingController,
+                        decoration: const InputDecoration(
+                            hintText: "Message ...",
+                            hintStyle: TextStyle(
+                              color: Color.fromARGB(255, 0, 0, 0),
+                              fontSize: 16,
+                            ),
+                            border: InputBorder.none),
+                      )),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            addMessage();
+                          },
+                          child: Icon(
+                            Icons.send_rounded,
+                            color: kGreen,
+                          )),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -128,6 +141,9 @@ class MessageTile extends StatelessWidget {
         padding:
             const EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
         decoration: BoxDecoration(
+            border: sendByMe
+                ? Border.all(color: Colors.white)
+                : Border.all(color: kGreen),
             borderRadius: sendByMe
                 ? const BorderRadius.only(
                     topLeft: Radius.circular(23),
@@ -138,7 +154,12 @@ class MessageTile extends StatelessWidget {
                     topRight: Radius.circular(23),
                     bottomRight: Radius.circular(23)),
             gradient: LinearGradient(
-              colors: sendByMe ? [kGreen, kGreen] : [Colors.grey, Colors.grey],
+              colors: sendByMe
+                  ? [kGreen, kGreen]
+                  : [
+                      Color.fromARGB(255, 255, 255, 255),
+                      Color.fromARGB(255, 255, 255, 255)
+                    ],
             )),
         child: Text(message,
             textAlign: TextAlign.start,
