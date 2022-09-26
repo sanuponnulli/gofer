@@ -13,6 +13,7 @@ class User {
   String companydetails;
   String file;
   List jobs;
+  List rating;
   User(
       {required this.email,
       required this.name1,
@@ -25,6 +26,7 @@ class User {
       this.companyname = 'no data',
       this.companydetails = 'no data',
       this.file = "",
+      this.rating = const [],
       this.jobs = const []});
 
   Map<String, dynamic> tojson() => {
@@ -38,12 +40,15 @@ class User {
         "companyname": companyname,
         "companydetails": companydetails,
         "uid": uid,
-        "file": file
+        "file": file,
+        "rating": rating
       };
 
   static User fromsnap(DocumentSnapshot snapshot) {
     if (snapshot.data() != null) {
       var snap = snapshot.data() as Map<String, dynamic>;
+      final rating = snap["rating"];
+      rating.sort;
       return User(
           email: snap["email"],
           name1: snap["name1"],
@@ -56,6 +61,7 @@ class User {
           companyname: snap["companyname"] ?? "",
           uid: snap["uid"],
           jobs: snap["jobs"] ?? [],
+          rating: rating,
           file: snap["file"] ?? "");
     } else {
       return User(
@@ -70,6 +76,7 @@ class User {
           companyname: "",
           uid: "",
           jobs: [],
+          rating: [0],
           file: "");
     }
   }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/models/user.dart' as models;
@@ -15,7 +17,7 @@ Future signin(String email, String password, String usertype) async {
       data = doc.data() as Map<String, dynamic>;
     });
 
-    print(data["usertype"]);
+    // print(data["usertype"]);
     if (data["usertype"] == usertype) {
       return true;
     } else {
@@ -69,7 +71,7 @@ class UserMethods {
   Future<bool> pay(int amount, String proposalid, String freelancerid) async {
     try {
       DateTime now = DateTime.now();
-      print("aaaaaaaaaaa");
+      // print("aaaaaaaaaaa");
       final clientbalance = await FirebaseFirestore.instance
           .collection("wallet")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -78,7 +80,11 @@ class UserMethods {
         final balance = value.data() as Map;
         return balance["balance"];
       });
-      print("qqqqqqqq");
+      // print("qqqqqqqq");
+      if (clientbalance < amount) {
+        throw FormatException();
+      }
+
       await FirebaseFirestore.instance
           .collection("wallet")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -98,7 +104,7 @@ class UserMethods {
               .update({"status": "paid"}));
       final freelancerbalance = await FirebaseFirestore.instance
           .collection("wallet")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(freelancerid)
           .get()
           .then((value) {
         final balance = value.data() as Map;

@@ -118,13 +118,16 @@ class CommonProfile extends StatelessWidget {
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text("Rating"),
-                                            Icon(
+                                          children: [
+                                            const Text("Rating"),
+                                            const Icon(
                                               Icons.star,
                                               color: Colors.amber,
                                             ),
-                                            Text("4")
+                                            Text(data1.rating[int.parse(
+                                                    (data1.rating.length ~/ 2)
+                                                        .toString())]
+                                                .toString())
                                           ],
                                         ),
                                         const SizedBox(

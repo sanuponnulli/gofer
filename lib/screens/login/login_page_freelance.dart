@@ -81,6 +81,7 @@ class _FreelanceLoginState extends State<FreelanceLogin> {
                       setState(() {
                         isloading = true;
                       });
+
                       bool value = await signin(emailcontroller.text.trim(),
                           passwordcontroller.text.trim(), "Freelancer");
                       if (value) {
@@ -99,16 +100,21 @@ class _FreelanceLoginState extends State<FreelanceLogin> {
                         isloading = false;
                       });
                     },
+
                     // Navigator.of(context).push(MaterialPageRoute(
                     //     builder: ((context) => const HomepageFreelancer())));
 
                     minWidth: 380,
                     height: 50,
                     color: kGreen,
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
+                    child: isloading
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : const Text(
+                            "Log In",
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
                   ),
                   const SizedBox(
                     height: 400,

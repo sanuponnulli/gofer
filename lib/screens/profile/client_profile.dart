@@ -6,6 +6,7 @@ import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
 import 'package:flutter_application_1/models/user.dart' as model;
+import 'package:flutter_application_1/screens/profile/edit_profile.dart';
 import 'package:flutter_application_1/services/imagepicker.dart';
 import 'package:flutter_application_1/services/storageservices.dart';
 import 'package:image_picker/image_picker.dart';
@@ -109,10 +110,13 @@ class _ClientprofileState extends State<Clientprofile> {
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text("Rating"),
-                                            Icon(Icons.star),
-                                            Text("4")
+                                          children: [
+                                            const Text("Rating"),
+                                            const Icon(Icons.star),
+                                            Text(data1.rating[int.parse(
+                                                    (data1.rating.length ~/ 2)
+                                                        .toString())]
+                                                .toString())
                                           ],
                                         ),
                                         const SizedBox(
@@ -134,8 +138,16 @@ class _ClientprofileState extends State<Clientprofile> {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: ((context) {
-                                                    return const ClientAddDetails(
-                                                      usertype: 'Client',
+                                                    return EditProfile(
+                                                      usertype: "Client",
+                                                      phone: data1.phonenumber,
+                                                      companyname:
+                                                          data1.companyname,
+                                                      companydescription:
+                                                          data1.companydetails,
+                                                      about1: data1.about,
+                                                      name1: data1.name1,
+                                                      name2: data1.name2,
                                                     );
                                                   })));
                                                 },
@@ -191,8 +203,8 @@ class _ClientprofileState extends State<Clientprofile> {
                                           selectImage();
                                         },
                                         child: const Icon(
-                                          Icons.camera_front_outlined,
-                                          color: Colors.white,
+                                          Icons.add_a_photo,
+                                          color: kGreen,
                                         ),
                                       ),
                                     )

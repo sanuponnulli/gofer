@@ -3,13 +3,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/messages/chat.dart';
+import 'package:flutter_application_1/screens/profile/common_profile.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import '../home/homepage_client.dart';
 
-class Freelancerproposals extends StatelessWidget {
+class Freelancerproposals extends StatefulWidget {
   const Freelancerproposals({Key? key}) : super(key: key);
 
+  @override
+  State<Freelancerproposals> createState() => _FreelancerproposalsState();
+}
+
+class _FreelancerproposalsState extends State<Freelancerproposals> {
+  double? _ratingValue;
   @override
   Widget build(BuildContext context) {
     UserMethods userMethods = UserMethods();
@@ -78,30 +86,38 @@ class Freelancerproposals extends StatelessWidget {
                       return ListView.separated(
                           itemBuilder: (context, index) {
                             return !snapshot.data!.docs[index]["accept"]
-                                ? ListTile(
-                                    title: SizedBox(
-                                      height: 200,
-                                      child: ListView(
-                                        children: [
-                                          Text(snapshot.data!.docs[index]
-                                              ["description"]),
-                                        ],
+                                ? Card(
+                                    shape: RoundedRectangleBorder(
+                                      side: const BorderSide(
+                                        width: 2,
+                                        color: Colors.red,
                                       ),
+                                      borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    trailing: IconButton(
-                                      color: Colors.red,
-                                      icon: const Icon(
-                                          Icons.multiple_stop_outlined),
-                                      onPressed: () {},
-                                    ),
-                                    leading: Column(children: [
-                                      const Text(
-                                        "Bid Price",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                    child: ListTile(
+                                      title: SizedBox(
+                                        height: 100,
+                                        child: ListView(
+                                          children: [
+                                            Text(snapshot.data!.docs[index]
+                                                ["description"]),
+                                          ],
+                                        ),
                                       ),
-                                      Text(snapshot.data!.docs[index]["price"])
-                                    ]),
+                                      trailing: const Icon(
+                                        Icons.timer,
+                                        color: Colors.red,
+                                      ),
+                                      leading: Column(children: [
+                                        const Text(
+                                          "Bid Price",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                            snapshot.data!.docs[index]["price"])
+                                      ]),
+                                    ),
                                   )
                                 : const SizedBox();
                           },
@@ -127,31 +143,171 @@ class Freelancerproposals extends StatelessWidget {
                     } else {
                       return ListView.separated(
                           itemBuilder: (context, index) {
+                            // print(index);
                             return snapshot.data!.docs[index]["accept"]
-                                ? ListTile(
-                                    title: Text(snapshot.data!.docs[index]
-                                        ["description"]),
-                                    leading: const Text("Job title"),
-                                    trailing: ElevatedButton.icon(
-                                        onPressed: () {
-                                          sendMessage(snapshot.data!.docs[index]
-                                              ["client"]);
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: SizedBox(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CommonProfile(
+                                                          id: snapshot.data!
+                                                                  .docs[index]
+                                                              ["client"],
+                                                          usertype: "Client")));
                                         },
-                                        icon: const Icon(Icons.check),
-                                        label: const Text("Message Client")),
-                                    subtitle: Row(
-                                      children: [
-                                        const Text("Status:"),
-                                        Text(
-                                          snapshot.data!.docs[index]["status"],
-                                          style: const TextStyle(color: kGreen),
-                                        )
-                                      ],
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                            side: const BorderSide(
+                                              width: 2,
+                                              color: kGreen,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    child: Text(snapshot
+                                                            .data!.docs[index]
+                                                        ["jobtitle"]),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 150,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                            "${snapshot.data!.docs[index]["description"].toString()}..."),
+                                                        SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            const Text(
+                                                                "Status:"),
+                                                            Text(
+                                                              snapshot.data!
+                                                                          .docs[
+                                                                      index]
+                                                                  ["status"],
+                                                              style:
+                                                                  const TextStyle(
+                                                                      color:
+                                                                          kGreen),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        snapshot.data!.docs[
+                                                                    index]
+                                                                ["ratingf"]
+                                                            ? const Icon(
+                                                                Icons.done_all,
+                                                                color: Colors
+                                                                    .amber,
+                                                              )
+                                                            : RatingBar(
+                                                                itemSize: 25,
+                                                                initialRating:
+                                                                    0,
+                                                                direction: Axis
+                                                                    .horizontal,
+                                                                allowHalfRating:
+                                                                    true,
+                                                                itemCount: 5,
+                                                                ratingWidget:
+                                                                    RatingWidget(
+                                                                        full: const Icon(
+                                                                            Icons
+                                                                                .star,
+                                                                            color: Colors
+                                                                                .orange),
+                                                                        half:
+                                                                            const Icon(
+                                                                          Icons
+                                                                              .star_half,
+                                                                          color:
+                                                                              Colors.orange,
+                                                                        ),
+                                                                        empty:
+                                                                            const Icon(
+                                                                          Icons
+                                                                              .star_outline,
+                                                                          color:
+                                                                              Colors.orange,
+                                                                        )),
+                                                                onRatingUpdate:
+                                                                    (value) async {
+                                                                  await FirebaseFirestore
+                                                                      .instance
+                                                                      .collection(
+                                                                          "Client")
+                                                                      .doc(snapshot
+                                                                              .data!
+                                                                              .docs[index]
+                                                                          [
+                                                                          "client"])
+                                                                      .update({
+                                                                    "rating":
+                                                                        FieldValue
+                                                                            .arrayUnion([
+                                                                      value
+                                                                    ])
+                                                                  }).then((value) => FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              "proposals")
+                                                                          .doc(snapshot
+                                                                              .data!
+                                                                              .docs[index]
+                                                                              .id)
+                                                                          .update({"ratingf": true}));
+                                                                  setState(() {
+                                                                    _ratingValue =
+                                                                        value;
+                                                                  });
+                                                                }),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  TextButton(
+                                                    child: const Icon(
+                                                      Icons.message,
+                                                      color: kGreen,
+                                                    ),
+                                                    onPressed: () {
+                                                      sendMessage(snapshot
+                                                              .data!.docs[index]
+                                                          ["client"]);
+                                                    },
+                                                  ),
+
+                                                  //     trailing: IconButton(
+                                                  //   onPressed: () {},
+                                                  //   icon: Icon(Icons.check),
+                                                  // )
+                                                ]),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    //     trailing: IconButton(
-                                    //   onPressed: () {},
-                                    //   icon: Icon(Icons.check),
-                                    // )
                                   )
                                 : const SizedBox();
                           },

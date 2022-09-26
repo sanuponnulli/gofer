@@ -59,21 +59,21 @@ class Appdrawer extends StatelessWidget {
             title: const Text("My stats"),
           ),
           const ListTile(
-            leading: Icon(Icons.web),
-            title: Text("Reports"),
+            leading: Icon(Icons.logout),
+            title: Text("Logout"),
           ),
           const Divider(),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: ((context) => const CommonProfile(
-                        id: "",
-                        usertype: 'Client',
-                      ))));
-            },
-            leading: const Icon(Icons.settings),
-            title: const Text("Settings"),
-          ),
+          // ListTile(
+          //   onTap: () {
+          //     Navigator.of(context).push(MaterialPageRoute(
+          //         builder: ((context) => const CommonProfile(
+          //               id: "",
+          //               usertype: 'Client',
+          //             ))));
+          //   },
+          //   leading: const Icon(Icons.settings),
+          //   title: const Text("Settings"),
+          // ),
         ],
       ),
     );

@@ -100,10 +100,6 @@ class AcceptReject extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const CircleAvatar(
-            radius: 40,
-            backgroundColor: kGreen,
-          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -133,13 +129,13 @@ class AcceptReject extends StatelessWidget {
                       .update({"approved": true});
                 },
                 child: const Text("Accept")),
-            ElevatedButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.red)),
-              child: const Text("Reject"),
-            )
+            // ElevatedButton(
+            //   onPressed: () {},
+            //   style: ButtonStyle(
+            //       backgroundColor:
+            //           MaterialStateProperty.all<Color>(Colors.red)),
+            //   child: const Text("Reject"),
+            // )
           ])
         ],
       ),

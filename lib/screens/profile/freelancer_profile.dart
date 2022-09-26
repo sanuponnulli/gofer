@@ -12,6 +12,7 @@ import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:image_picker/image_picker.dart';
 
 import 'client_add_details.dart';
+import 'edit_profile.dart';
 
 final List<Job> joblist = List.generate(
     10,
@@ -99,10 +100,13 @@ class FreelancerProfile extends StatelessWidget {
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
-                                          children: const [
-                                            Text("Rating"),
-                                            Icon(Icons.star),
-                                            Text("4")
+                                          children: [
+                                            const Text("Rating"),
+                                            const Icon(Icons.star),
+                                            Text(data1.rating[int.parse(
+                                                    (data1.rating.length ~/ 2)
+                                                        .toString())]
+                                                .toString())
                                           ],
                                         ),
                                         const SizedBox(
@@ -124,8 +128,16 @@ class FreelancerProfile extends StatelessWidget {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: ((context) {
-                                                    return const ClientAddDetails(
-                                                      usertype: 'Client',
+                                                    return EditProfile(
+                                                      usertype: "Client",
+                                                      phone: data1.phonenumber,
+                                                      companyname:
+                                                          data1.companyname,
+                                                      companydescription:
+                                                          data1.companydetails,
+                                                      about1: data1.about,
+                                                      name1: data1.name1,
+                                                      name2: data1.name2,
                                                     );
                                                   })));
                                                 },
@@ -181,8 +193,8 @@ class FreelancerProfile extends StatelessWidget {
                                           selectImage();
                                         },
                                         child: const Icon(
-                                          Icons.camera_front_outlined,
-                                          color: Colors.white,
+                                          Icons.add_a_photo,
+                                          color: kGreen,
                                         ),
                                       ),
                                     )

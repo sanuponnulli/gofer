@@ -51,12 +51,19 @@ class _AddJobState extends State<AddJob> {
               children: [
                 Flexible(
                   child: TextFormField(
-                      controller: title,
-                      decoration: const InputDecoration(
-                          hintText: "Job title",
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGreen, width: 2)),
-                          border: OutlineInputBorder())),
+                    controller: title,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Colors.white,
+                            )),
+                        hintText: "Job Title",
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: kGreen, width: 2))),
+                  ),
                 ),
                 TextButton.icon(
                     onPressed: () async {
@@ -93,13 +100,19 @@ class _AddJobState extends State<AddJob> {
               height: 30,
             ),
             TextFormField(
-                controller: description,
-                maxLines: 5,
-                decoration: const InputDecoration(
-                    hintText: "Job Description",
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: kGreen, width: 2)),
-                    border: OutlineInputBorder())),
+              controller: description,
+              maxLines: 5,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      )),
+                  hintText: "Job Description",
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: const BorderSide(color: kGreen, width: 2))),
+            ),
             const SizedBox(
               height: 30,
             ),
@@ -108,12 +121,19 @@ class _AddJobState extends State<AddJob> {
                 Flexible(
                   flex: 1,
                   child: TextFormField(
-                      controller: location,
-                      decoration: const InputDecoration(
-                          hintText: "Job Location",
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGreen, width: 2)),
-                          border: OutlineInputBorder())),
+                    controller: location,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Colors.white,
+                            )),
+                        hintText: "Job Location",
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: kGreen, width: 2))),
+                  ),
                 ),
                 const SizedBox(
                   width: 150,
@@ -127,13 +147,20 @@ class _AddJobState extends State<AddJob> {
               children: [
                 Flexible(
                   child: TextFormField(
-                      controller: budget,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          hintText: "Budget",
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kGreen, width: 2)),
-                          border: OutlineInputBorder())),
+                    controller: budget,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(
+                              color: Colors.white,
+                            )),
+                        hintText: "Budget",
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide:
+                                const BorderSide(color: kGreen, width: 2))),
+                  ),
                 ),
                 const SizedBox(
                   width: 200,

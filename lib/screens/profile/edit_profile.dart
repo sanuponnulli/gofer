@@ -6,16 +6,39 @@ import 'package:flutter_application_1/screens/home/homepage_client.dart';
 
 import '../../constants/colors.dart';
 
-class ClientAddDetails extends StatelessWidget {
-  const ClientAddDetails({Key? key, required this.usertype}) : super(key: key);
-  final String usertype;
+class EditProfile extends StatelessWidget {
+  const EditProfile(
+      {Key? key,
+      required this.usertype,
+      required this.phone,
+      required this.companyname,
+      required this.companydescription,
+      required this.about1,
+      required this.name1,
+      required this.name2})
+      : super(key: key);
+  final String usertype,
+      phone,
+      companyname,
+      companydescription,
+      about1,
+      name1,
+      name2;
 
   @override
   Widget build(BuildContext context) {
     TextEditingController about = TextEditingController();
-    TextEditingController phone = TextEditingController();
-    TextEditingController companyname = TextEditingController();
-    TextEditingController companydetails = TextEditingController();
+    TextEditingController phonecontroller = TextEditingController();
+    TextEditingController companynamecontroller = TextEditingController();
+    TextEditingController companydetailscontroller = TextEditingController();
+    TextEditingController name1controller = TextEditingController();
+    TextEditingController name2controller = TextEditingController();
+    about.text = about1;
+    phonecontroller.text = phone;
+    companydetailscontroller.text = companydescription;
+    companynamecontroller.text = companyname;
+    name1controller.text = name1;
+    name2controller.text = name2;
 
     return SafeArea(
         child: Scaffold(
@@ -27,7 +50,7 @@ class ClientAddDetails extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text(
-                "Add Details",
+                "Edit Profile",
                 style: TextStyle(fontSize: 20),
               ),
               SizedBox(
@@ -39,6 +62,32 @@ class ClientAddDetails extends StatelessWidget {
               //         focusedBorder: OutlineInputBorder(
               //             borderSide: BorderSide(color: kGreen, width: 2)),
               //         border: OutlineInputBorder())),
+              TextFormField(
+                  controller: name1controller,
+                  decoration: InputDecoration(
+                    filled: true, //<-- SEE HERE
+                    fillColor: kGreen.withOpacity(.1),
+                    hintText: "Firstname",
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kGreen, width: 2)),
+                    border: InputBorder.none,
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              TextFormField(
+                  controller: name2controller,
+                  decoration: InputDecoration(
+                    filled: true, //<-- SEE HERE
+                    fillColor: kGreen.withOpacity(.1),
+                    hintText: "Last Name",
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kGreen, width: 2)),
+                    border: InputBorder.none,
+                  )),
+              SizedBox(
+                height: 15,
+              ),
               TextFormField(
                   controller: about,
                   maxLines: 10,
@@ -60,7 +109,7 @@ class ClientAddDetails extends StatelessWidget {
               //             borderSide: BorderSide(color: kGreen, width: 2)),
               //         border: OutlineInputBorder())),
               TextFormField(
-                  controller: phone,
+                  controller: phonecontroller,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
                     fillColor: kGreen.withOpacity(.1),
@@ -73,7 +122,7 @@ class ClientAddDetails extends StatelessWidget {
                 height: 15,
               ),
               TextFormField(
-                  controller: companyname,
+                  controller: companynamecontroller,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
                     fillColor: kGreen.withOpacity(.1),
@@ -86,7 +135,7 @@ class ClientAddDetails extends StatelessWidget {
                 height: 15,
               ),
               TextFormField(
-                  controller: companydetails,
+                  controller: companydetailscontroller,
                   maxLines: 10,
                   decoration: InputDecoration(
                     filled: true, //<-- SEE HERE
@@ -105,11 +154,12 @@ class ClientAddDetails extends StatelessWidget {
                       .collection(usertype)
                       .doc(FirebaseAuth.instance.currentUser!.uid)
                       .update({
-                    if (about.text != "") "about": about.text,
-                    if (companyname.text != "") "companyname": companyname.text,
-                    if (companydetails.text != "")
-                      "companydetails": companydetails.text,
-                    if (phone.text != "") "phone": phone.text
+                    "name1": name1controller.text,
+                    "name2": name2controller.text,
+                    "about": about.text,
+                    "companyname": companynamecontroller.text,
+                    "companydetails": companydetailscontroller.text,
+                    "phone": phonecontroller.text
                   });
                   Navigator.pop(context);
                   // userdata=model.User()

@@ -129,7 +129,9 @@ class PutProposal extends StatelessWidget {
                           "status": "unpaid",
                           "accept": false,
                           "fname": user["name1"],
-                          "jobtitle": jobtitle
+                          "jobtitle": jobtitle,
+                          "ratingf": false,
+                          "ratingc": false
                         })
                         .then((value) => Navigator.pop(context))
                         .onError((error, stackTrace) =>

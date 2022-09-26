@@ -113,12 +113,17 @@ class _SignUpState extends State<SignUp> {
                           return null;
                         },
                         controller: _email,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                )),
+                            hintText: "E-mail",
                             focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
                                 borderSide:
-                                    BorderSide(color: kGreen, width: 2)),
-                            hintText: "E mail",
-                            border: OutlineInputBorder()),
+                                    const BorderSide(color: kGreen, width: 2))),
                       ),
                       const SizedBox(
                         height: 10,
@@ -131,12 +136,17 @@ class _SignUpState extends State<SignUp> {
                           }
                         },
                         controller: _password1,
-                        decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: kGreen, width: 2)),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                )),
                             hintText: "Password",
-                            border: OutlineInputBorder()),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: kGreen, width: 2))),
                       ),
                       const SizedBox(
                         height: 10,
@@ -153,12 +163,17 @@ class _SignUpState extends State<SignUp> {
                           }
                         },
                         controller: _password2,
-                        decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: kGreen, width: 2)),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                  color: Colors.white,
+                                )),
                             hintText: "Confirm Password",
-                            border: OutlineInputBorder()),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide:
+                                    const BorderSide(color: kGreen, width: 2))),
                       ),
                       const SizedBox(
                         height: 60,
@@ -217,7 +232,8 @@ class _SignUpState extends State<SignUp> {
                 "usertype": dropdownvalue,
                 "password": _password2.text,
                 "email": _email.text,
-                "approved": false
+                "approved": false,
+                "rating": [0]
               }))
           .then((value) => FirebaseFirestore.instance
               .collection("wallet")

@@ -13,7 +13,7 @@ class SearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: Center(
           child: Text(
             "Search Results",

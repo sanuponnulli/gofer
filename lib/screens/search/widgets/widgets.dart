@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/profile/common_profile.dart';
@@ -22,6 +23,9 @@ class TopJobcontainer extends StatelessWidget {
             ),
           )),
       child: Card(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        elevation: 3,
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(width: 1, color: kGreen),
@@ -104,6 +108,9 @@ class TopFlancercontainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: GestureDetector(
         onTap: () => Navigator.push(
             context,
@@ -114,11 +121,11 @@ class TopFlancercontainer extends StatelessWidget {
                     )))),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(width: 1, color: kGreen),
           ),
           height: 170,
-          width: 300,
+          width: 250,
           child: StreamBuilder<Object>(
               stream: FirebaseFirestore.instance
                   .collection("Freelancer")

@@ -230,10 +230,15 @@ class TextFields extends StatelessWidget {
         // }
       },
       decoration: InputDecoration(
-          focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: kGreen, width: 2)),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(
+                color: Colors.white,
+              )),
           hintText: hint,
-          border: const OutlineInputBorder()),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: const BorderSide(color: kGreen, width: 2))),
     );
   }
 }
