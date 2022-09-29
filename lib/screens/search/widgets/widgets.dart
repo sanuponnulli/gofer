@@ -5,8 +5,8 @@ import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/screens/profile/common_profile.dart';
 
-class TopJobcontainer extends StatelessWidget {
-  const TopJobcontainer({Key? key, required this.uid}) : super(key: key);
+class TopClient extends StatelessWidget {
+  const TopClient({Key? key, required this.uid}) : super(key: key);
 
   final String uid;
 
@@ -46,7 +46,7 @@ class TopJobcontainer extends StatelessWidget {
                 if (snapshot.hasData) {
                   model.User data1 =
                       model.User.fromsnap(snapshot.data as DocumentSnapshot);
-                  print(data1.phonenumber);
+                  // print(data1.phonenumber);
 
                   return !snapshot.hasData || data1 == null
                       ? const Center(
@@ -185,12 +185,14 @@ class TopFlancercontainer extends StatelessWidget {
 }
 
 class SearchResultJobTile extends StatelessWidget {
+  final String date;
   final String title;
   final String description;
   final String joblocation;
   final double budget;
   const SearchResultJobTile({
     Key? key,
+    required this.date,
     required this.title,
     required this.description,
     required this.joblocation,
@@ -262,13 +264,13 @@ class SearchResultJobTile extends StatelessWidget {
                   ],
                 ),
                 trailing: Column(
-                  children: const [
+                  children: [
                     Text(
-                      "10-05-2022",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      DateTime.parse(date).toString().split(" ")[0],
+                      style: const TextStyle(fontSize: 13, color: Colors.red),
                     ),
-                    Text(
-                      "Date",
+                    const Text(
+                      "Deadline",
                       style: TextStyle(color: Colors.grey),
                     )
                   ],
@@ -276,9 +278,7 @@ class SearchResultJobTile extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
-                      style: const TextStyle(fontSize: 15),
-                      "${description}le content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).")
+                  Text(style: const TextStyle(fontSize: 15), "${description}")
                 ],
               ),
               const SizedBox(

@@ -49,22 +49,27 @@ class SearchResult extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => JobTemplate(
-                                              title: snapshot.data!.docs[index]
-                                                  ["title"],
-                                              description: snapshot.data!
-                                                  .docs[index]["description"],
-                                              joblocation: snapshot.data!
-                                                  .docs[index]["location"],
-                                              budget: snapshot.data!.docs[index]
-                                                  ["budget"],
-                                              jobid: snapshot.data!.docs[index]
-                                                  ["jobid"],
-                                              date: snapshot
-                                                  .data!.docs[index]["deadline"]
-                                                  .toDate()
-                                                  .toString(),
-                                              user: snapshot.data!.docs[index]
-                                                  ["user"])));
+                                                title: snapshot
+                                                    .data!.docs[index]["title"],
+                                                description: snapshot.data!
+                                                    .docs[index]["description"],
+                                                joblocation: snapshot.data!
+                                                    .docs[index]["location"],
+                                                budget: snapshot.data!
+                                                    .docs[index]["budget"],
+                                                jobid: snapshot
+                                                    .data!.docs[index]["jobid"],
+                                                date: snapshot.data!
+                                                    .docs[index]["deadline"]
+                                                    .toDate()
+                                                    .toString(),
+                                                user: snapshot.data!.docs[index]
+                                                    ["user"],
+                                                postdate: snapshot
+                                                    .data!.docs[index]["time"]
+                                                    .toDate()
+                                                    .toString(),
+                                              )));
                                 },
                                 title:
                                     Text(snapshot.data!.docs[index]['title']),

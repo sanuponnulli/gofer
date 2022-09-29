@@ -285,6 +285,10 @@ class CommonProfile extends StatelessWidget {
                                                                   .toDate()
                                                                   .toString(),
                                                               user: dd["user"],
+                                                              postdate: dd[
+                                                                      "time"]
+                                                                  .toDate()
+                                                                  .toString(),
                                                             ))));
                                               },
                                               trailing: Text(DateTime.parse(

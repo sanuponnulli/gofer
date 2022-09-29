@@ -18,7 +18,9 @@ class JobTemplate extends StatelessWidget {
     required this.date,
     required this.user,
     this.l,
+    required this.postdate,
   }) : super(key: key);
+  final String postdate;
   final String title;
   final String description;
   final String joblocation;
@@ -98,11 +100,30 @@ class JobTemplate extends StatelessWidget {
                                           data1.phonenumber,
                                           style: const TextStyle(fontSize: 18),
                                         ),
-                                        Text(
-                                          DateTime.parse(date)
-                                              .toString()
-                                              .split(" ")[0],
-                                          style: const TextStyle(fontSize: 13),
+                                        Row(
+                                          children: [
+                                            Text("Deadline: "),
+                                            Text(
+                                              DateTime.parse(date)
+                                                  .toString()
+                                                  .split(" ")[0],
+                                              style: const TextStyle(
+                                                  fontSize: 13,
+                                                  color: Colors.red),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("posted at: "),
+                                            Text(
+                                              DateTime.parse(postdate)
+                                                  .toString()
+                                                  .split(" ")[0],
+                                              style: const TextStyle(
+                                                  fontSize: 13, color: kGreen),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     )

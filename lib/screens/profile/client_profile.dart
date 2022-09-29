@@ -370,6 +370,10 @@ class _ClientprofileState extends State<Clientprofile> {
                                                                   .toString(),
                                                               user: dd["user"],
                                                               l: data1.jobs,
+                                                              postdate: dd[
+                                                                      "time"]
+                                                                  .toDate()
+                                                                  .toString(),
                                                             ))));
                                               },
                                               trailing: Text(DateTime.parse(

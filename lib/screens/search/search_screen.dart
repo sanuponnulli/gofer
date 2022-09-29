@@ -83,8 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       (index) => Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 2),
-                                            child: TopJobcontainer(
-                                                uid: data[index]),
+                                            child: TopClient(uid: data[index]),
                                           )),
                                 );
                               } else {
@@ -95,8 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       (index) => const Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 5),
-                                            child:
-                                                TopJobcontainer(uid: "Error"),
+                                            child: TopClient(uid: "Error"),
                                           )),
                                 );
                               }
@@ -137,7 +135,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   (index) => const Padding(
                                         padding:
                                             EdgeInsets.symmetric(horizontal: 5),
-                                        child: TopJobcontainer(uid: "Error"),
+                                        child: TopClient(uid: "Error"),
                                       )),
                             );
                           }
@@ -166,6 +164,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: ((context) => JobTemplate(
+                                                  postdate: snapshot
+                                                      .data!.docs[index]["time"]
+                                                      .toDate()
+                                                      .toString(),
                                                   title: snapshot.data!
                                                       .docs[index]["title"],
                                                   description:
@@ -186,6 +188,9 @@ class _SearchScreenState extends State<SearchScreen> {
                                                 ))));
                                   },
                                   child: SearchResultJobTile(
+                                    date: snapshot.data!.docs[index]["deadline"]
+                                        .toDate()
+                                        .toString(),
                                     budget: snapshot.data!.docs[index]["budget"]
                                         .toDouble(),
                                     description: snapshot.data!.docs[index]
