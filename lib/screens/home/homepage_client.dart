@@ -94,6 +94,7 @@ class _HomePageClientState extends State<HomePageClient> {
 
                 return Appdrawer(
                   name: data1.name1.isEmpty ? "..." : data1.name1,
+                  approvalstatus: data1.approval,
                   usertype: widget.usertype,
                   uid: data1.uid,
                   file: data1.file.isEmpty ? "" : data1.file,

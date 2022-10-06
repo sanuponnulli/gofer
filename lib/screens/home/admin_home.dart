@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/complaints/admin_complaints.dart';
+import 'package:flutter_application_1/screens/home/lookup.dart';
 import 'package:flutter_application_1/screens/search/search_screen.dart';
 import 'package:flutter_application_1/userrequests/admin_request.dart';
 
@@ -14,6 +15,7 @@ class AdminHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final adminpages = [
       const SearchScreen(),
+      const ProfileLookup(),
       const Requestpage(),
       // SafeArea(child: Text("sss")),
       const Messagescreen(),
@@ -31,6 +33,9 @@ class AdminHome extends StatelessWidget {
                   items: const [
                     BottomNavigationBarItem(
                         icon: Icon(Icons.search), label: "Search"),
+                    BottomNavigationBarItem(
+                        icon: Icon(Icons.person_search),
+                        label: "profile lookup"),
                     BottomNavigationBarItem(
                         icon: Icon(Icons.mark_as_unread_rounded),
                         label: "Requests"),

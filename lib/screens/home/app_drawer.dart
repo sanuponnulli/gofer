@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/home/lookup.dart';
 import 'package:flutter_application_1/screens/mystats/my_stats.dart';
 import 'package:flutter_application_1/screens/profile/client_profile.dart';
 import 'package:flutter_application_1/screens/profile/common_profile.dart';
@@ -9,12 +10,14 @@ class Appdrawer extends StatelessWidget {
   final String name;
   final String uid;
   final String file;
+  final bool approvalstatus;
   const Appdrawer(
       {Key? key,
       required this.usertype,
       required this.name,
       required this.uid,
-      this.file = ""})
+      this.file = "",
+      required this.approvalstatus})
       : super(key: key);
 
   @override
@@ -25,9 +28,11 @@ class Appdrawer extends StatelessWidget {
           DrawerHeader(
               decoration: const BoxDecoration(color: Colors.white),
               child: ListTile(
-                subtitle: Text(
-                  usertype,
-                ),
+                subtitle:
+                    approvalstatus ? Text(" Approved") : Text(" Not Approved"),
+                // trailing: Text(
+                //   usertype,
+                // ),
                 title: Text(
                   name,
                   style: const TextStyle(fontSize: 20),
@@ -58,22 +63,19 @@ class Appdrawer extends StatelessWidget {
             leading: const Icon(Icons.query_stats),
             title: const Text("My stats"),
           ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: ((context) => ProfileLookup())));
+            },
+            leading: const Icon(Icons.search_rounded),
+            title: const Text("Profile Lookup"),
+          ),
           const ListTile(
             leading: Icon(Icons.logout),
             title: Text("Logout"),
           ),
           const Divider(),
-          // ListTile(
-          //   onTap: () {
-          //     Navigator.of(context).push(MaterialPageRoute(
-          //         builder: ((context) => const CommonProfile(
-          //               id: "",
-          //               usertype: 'Client',
-          //             ))));
-          //   },
-          //   leading: const Icon(Icons.settings),
-          //   title: const Text("Settings"),
-          // ),
         ],
       ),
     );

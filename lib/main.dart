@@ -177,7 +177,7 @@ class Startpage extends StatelessWidget {
                             builder: ((context) => const FreelanceLogin())));
                       },
                       child: const Text(
-                        "Freelance",
+                        "Freelancer",
                         style: TextStyle(
                             fontSize: 30,
                             color: kGreen,

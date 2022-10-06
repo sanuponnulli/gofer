@@ -14,6 +14,7 @@ class User {
   String file;
   List jobs;
   List rating;
+  bool approval;
   User(
       {required this.email,
       required this.name1,
@@ -21,6 +22,7 @@ class User {
       required this.password,
       required this.usertype,
       required this.uid,
+      this.approval = false,
       this.about = "no data",
       this.phonenumber = 'no data',
       this.companyname = 'no data',
@@ -53,6 +55,7 @@ class User {
           email: snap["email"],
           name1: snap["name1"],
           name2: snap["name2"],
+          approval: snap["approved"],
           password: snap["password"],
           usertype: snap["usertype"],
           about: snap["about"] ?? "",
