@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
-import 'package:flutter_application_1/screens/messages/message.dart';
 
 class ComplaintsAdmin extends StatelessWidget {
   const ComplaintsAdmin({Key? key}) : super(key: key);

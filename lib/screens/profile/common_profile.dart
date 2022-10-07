@@ -9,12 +9,10 @@ import 'package:flutter_application_1/dataclasses/job.dart';
 import 'package:flutter_application_1/screens/home/homepage_client.dart';
 import 'package:flutter_application_1/screens/jobtemplate_screen/jobtemplate.dart';
 import 'package:flutter_application_1/screens/messages/chat.dart';
-import 'package:flutter_application_1/screens/messages/message.dart';
-import 'package:flutter_application_1/screens/messages/messages_screen.dart';
+import 'package:flutter_application_1/screens/mystats/my_stats.dart';
 import 'package:flutter_application_1/screens/profile/complaint_registration.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
-
-import 'client_add_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final List<Job> joblist = List.generate(
     10,
@@ -149,31 +147,97 @@ class CommonProfile extends StatelessWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                  Icons.call,
-                                                  color: kGreen,
-                                                )),
+                                            data1.phonenumber != ""
+                                                ? Icon(
+                                                    Icons.call,
+                                                    color: Colors.grey,
+                                                  )
+                                                : IconButton(
+                                                    onPressed: () async {
+                                                      var url = Uri.parse(
+                                                          "tel:${data1.phonenumber}");
+                                                      if (await canLaunchUrl(
+                                                          url)) {
+                                                        await launchUrl(url);
+                                                      } else {
+                                                        throw 'Could not launch $url';
+                                                      }
+                                                    },
+                                                    icon: const Icon(
+                                                      Icons.call,
+                                                      color: kGreen,
+                                                    )),
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ComplaintRegister(
-                                                                uid: id,
-                                                                usertype:
-                                                                    usertype,
-                                                              )));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.flag,
-                                                  color: Colors.red,
-                                                ))
+                                            if (FirebaseAuth.instance
+                                                    .currentUser!.uid ==
+                                                "Ash9QXRqVHPlYmmPJj5QmFUyDT42")
+                                              Row(
+                                                children: [
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    MyStats(
+                                                                        id: id,
+                                                                        usertype:
+                                                                            usertype)));
+                                                      },
+                                                      icon: Icon(Icons.wallet)),
+                                                  data1.approval
+                                                      ? IconButton(
+                                                          onPressed: () {
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    usertype)
+                                                                .doc(id)
+                                                                .update({
+                                                              "approved": false
+                                                            });
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .remove_circle_outline,
+                                                            color: Colors.red,
+                                                          ))
+                                                      : IconButton(
+                                                          onPressed: () {
+                                                            FirebaseFirestore
+                                                                .instance
+                                                                .collection(
+                                                                    usertype)
+                                                                .doc(id)
+                                                                .update({
+                                                              "approved": true
+                                                            });
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.approval,
+                                                            color: Colors.green,
+                                                          )),
+                                                ],
+                                              )
+                                            else
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ComplaintRegister(
+                                                                  uid: id,
+                                                                  usertype:
+                                                                      usertype,
+                                                                )));
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.flag,
+                                                    color: Colors.red,
+                                                  ))
                                             // ElevatedButton(
                                             //     style: ButtonStyle(
                                             //         backgroundColor:

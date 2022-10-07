@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/constants.dart';
 import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
+
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
 import 'package:flutter_application_1/services/firebase_services.dart';
+
+import 'forgotpassword.dart';
 
 class FreelanceLogin extends StatefulWidget {
   const FreelanceLogin({Key? key}) : super(key: key);
@@ -115,6 +118,21 @@ class _FreelanceLoginState extends State<FreelanceLogin> {
                             "Log In",
                             style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Forgotpassword()));
+                      },
+                      child: const Text(
+                        "Forgot password !",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 400,

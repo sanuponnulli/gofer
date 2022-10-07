@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/profile/common_profile.dart';
 
 class Requestpage extends StatelessWidget {
   const Requestpage({Key? key}) : super(key: key);
@@ -92,53 +93,59 @@ class AcceptReject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: SizedBox(
-      width: double.infinity,
-      height: 100,
-      //color: Colors.amber,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  email,
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(usertype)
-              ],
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CommonProfile(id: id, usertype: usertype))),
+      child: Card(
+          child: SizedBox(
+        width: double.infinity,
+        height: 100,
+        //color: Colors.amber,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    email,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text(usertype)
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 50,
-          ),
-          Column(children: [
-            ElevatedButton(
-                onPressed: () async {
-                  FirebaseFirestore.instance
-                      .collection(usertype)
-                      .doc(id)
-                      .update({"approved": true});
-                },
-                child: const Text("Accept")),
-            // ElevatedButton(
-            //   onPressed: () {},
-            //   style: ButtonStyle(
-            //       backgroundColor:
-            //           MaterialStateProperty.all<Color>(Colors.red)),
-            //   child: const Text("Reject"),
-            // )
-          ])
-        ],
-      ),
-    ));
+            const SizedBox(
+              width: 50,
+            ),
+            Column(children: [
+              ElevatedButton(
+                  onPressed: () async {
+                    FirebaseFirestore.instance
+                        .collection(usertype)
+                        .doc(id)
+                        .update({"approved": true});
+                  },
+                  child: const Text("Accept")),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   style: ButtonStyle(
+              //       backgroundColor:
+              //           MaterialStateProperty.all<Color>(Colors.red)),
+              //   child: const Text("Reject"),
+              // )
+            ])
+          ],
+        ),
+      )),
+    );
   }
 }
