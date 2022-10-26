@@ -1,13 +1,22 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/screens/home/homepage_client.dart';
+import 'package:flutter_application_1/screens/home/homepage_freelancer.dart';
 import 'package:flutter_application_1/screens/login/login_page_client.dart';
 import 'package:flutter_application_1/screens/login/login_page_freelance.dart';
 import 'package:flutter_application_1/screens/signup/sign_up.dart';
 
 import 'constants/constants.dart';
+import 'screens/addjobs/add_jobs.dart';
+import 'screens/messages/messages_screen.dart';
+import 'screens/proposals/proposals_client.dart';
+import 'screens/search/search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +37,99 @@ class MyApp extends StatelessWidget {
               iconTheme: IconThemeData(color: kGreen),
               backgroundColor: Colors.white)),
       debugShowCheckedModeBanner: false,
-      home: const Startpage(),
+      home: const Splash(),
+    );
+  }
+}
+
+class Splash extends StatefulWidget {
+  const Splash({Key? key}) : super(key: key);
+
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+  void check() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null || user.email == "admin@gmail.com") {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Startpage()));
+    } else {
+      try {
+        final d = await FirebaseFirestore.instance
+            .collection("Client")
+            .doc(user.uid)
+            .get();
+        if (d.exists) {
+          final type = d.data()!["usertype"];
+          print(type);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePageClient(pages: [
+                        SearchScreen(),
+                        ClientProposals(),
+                        AddJob(),
+                        Messagescreen(),
+                      ], usertype: "Client")));
+        } else {
+          final p = await FirebaseFirestore.instance
+              .collection("Freelancer")
+              .doc(user.uid)
+              .get();
+          final type = p.data()!["usertype"];
+          print(type);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomepageFreelancer()));
+
+          // if (p.exists == false) {
+          //   // ignore: use_build_context_synchronously
+          //   Navigator.pushReplacement(context,
+          //       MaterialPageRoute(builder: (context) => const Startpage()));
+          // }
+        }
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      // do something
+      check();
+      print("Build Completed");
+    });
+    return Scaffold(
+      backgroundColor: kGreen,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Center(
+            child: Text(
+              "gofer",
+              style: TextStyle(
+                  color: Colors.white, fontSize: 60, fontFamily: "Schyler"),
+            ),
+          ),
+          Center(
+              child: SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          ))
+        ],
+      ),
     );
   }
 }

@@ -140,11 +140,13 @@ class _ClientLoginState extends State<ClientLogin> {
                         bool value = await signin(emailcontroller.text.trim(),
                             passwordcontroller.text.trim(), "Client");
                         if (value) {
-                          Navigator.push(
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => HomePageClient(
-                                      pages: pages, usertype: "Client")));
+                                      pages: pages, usertype: "Client")),
+                              (route) => false);
                         } else {
                           const Center(
                             child: SnackBar(

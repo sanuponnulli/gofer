@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/models/user.dart' as model;
 import 'package:flutter_application_1/services/firebase_services.dart';
 
@@ -108,11 +109,20 @@ class _HomePageClientState extends State<HomePageClient> {
             }),
         backgroundColor: Colors.white,
         appBar: AppBar(
-          actions: const [
+          actions: [
             SizedBox(
               width: 12,
             ),
-            Icon(Icons.logout_rounded),
+            GestureDetector(
+              child: Icon(Icons.logout_rounded),
+              onTap: () {
+                FirebaseAuth.instance.signOut().then((value) =>
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Splash()),
+                        (route) => false));
+              },
+            ),
             SizedBox(
               width: 10,
             )

@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/screens/home/lookup.dart';
 import 'package:flutter_application_1/screens/mystats/my_stats.dart';
 import 'package:flutter_application_1/screens/profile/client_profile.dart';
@@ -71,7 +73,14 @@ class Appdrawer extends StatelessWidget {
             leading: const Icon(Icons.search_rounded),
             title: const Text("Profile Lookup"),
           ),
-          const ListTile(
+          ListTile(
+            onTap: () async {
+              FirebaseAuth.instance.signOut().then((value) =>
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Splash()),
+                      (route) => false));
+            },
             leading: Icon(Icons.logout),
             title: Text("Logout"),
           ),

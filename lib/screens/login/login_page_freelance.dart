@@ -88,9 +88,12 @@ class _FreelanceLoginState extends State<FreelanceLogin> {
                       bool value = await signin(emailcontroller.text.trim(),
                           passwordcontroller.text.trim(), "Freelancer");
                       if (value) {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: ((context) =>
-                                const HomepageFreelancer())));
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: ((context) =>
+                                    const HomepageFreelancer())),
+                            (route) => false);
                       } else {
                         const Center(
                           child: SnackBar(
