@@ -112,6 +112,7 @@ class _ClientLoginState extends State<ClientLogin> {
                       height: 10,
                     ),
                     TextFields(
+                      obs: true,
                       texteditingcontroller: passwordcontroller,
                       hint: 'Password',
                     ),
@@ -222,16 +223,19 @@ class Gofer extends StatelessWidget {
 
 class TextFields extends StatelessWidget {
   final String hint;
+  bool obs;
   final TextEditingController? texteditingcontroller;
-  const TextFields({
-    Key? key,
-    required this.hint,
-    this.texteditingcontroller,
-  }) : super(key: key);
+  TextFields(
+      {Key? key,
+      required this.hint,
+      this.texteditingcontroller,
+      this.obs = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obs,
       controller: texteditingcontroller,
       // ignore: body_might_complete_normally_nullable
       validator: (value) {

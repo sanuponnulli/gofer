@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:ui';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +53,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   void check() async {
+    print("check running");
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null || user.email == "admin@gmail.com") {
@@ -58,6 +61,10 @@ class _SplashState extends State<Splash> {
           context, MaterialPageRoute(builder: (context) => Startpage()));
     } else {
       try {
+        final result = await InternetAddress.lookup('example.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          print('connected');
+        }
         final d = await FirebaseFirestore.instance
             .collection("Client")
             .doc(user.uid)
@@ -94,10 +101,29 @@ class _SplashState extends State<Splash> {
           //       MaterialPageRoute(builder: (context) => const Startpage()));
           // }
         }
+      } on SocketException catch (_) {
+        const snackBar = SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('No internet connection'));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // setState(() {});
+
+        Timer(Duration(seconds: 3), () {
+          check();
+          print("Yeah, this line is printed after 3 seconds");
+        });
+        print('not connected');
       } catch (e) {
         print(e);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    super.dispose();
   }
 
   @override

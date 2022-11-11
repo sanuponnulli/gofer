@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
@@ -24,6 +25,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final items = ["Client", "Freelancer"];
+  bool isloading = false;
   String dropdownvalue = "Freelancer";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _firstname = TextEditingController();
@@ -129,6 +131,7 @@ class _SignUpState extends State<SignUp> {
                         height: 10,
                       ),
                       TextFormField(
+                        obscureText: true,
                         // ignore: body_might_complete_normally_nullable
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -152,7 +155,8 @@ class _SignUpState extends State<SignUp> {
                         height: 10,
                       ),
                       TextFormField(
-                        // ignore: body_might_complete_normally_nullable
+                        obscureText: true,
+                        // ignore: body_might_comobobplete_normally_nullable
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Enter a valid Password";
@@ -181,6 +185,9 @@ class _SignUpState extends State<SignUp> {
                       MaterialButton(
                         shape: roundedRectangleBorder,
                         onPressed: () {
+                          setState(() {
+                            isloading = true;
+                          });
                           //print(_password1.text);
                           if (_formKey.currentState!.validate()) {
                             //print("validated");
@@ -198,10 +205,16 @@ class _SignUpState extends State<SignUp> {
                         minWidth: 380,
                         height: 50,
                         color: kGreen,
-                        child: const Text(
-                          "Sign Up",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
+                        child: isloading
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ))
+                            : const Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
                       ),
                       const SizedBox(
                         height: 200,
@@ -219,6 +232,10 @@ class _SignUpState extends State<SignUp> {
 
   Future signup(List<Widget> pages) async {
     try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
       FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _email.text.trim(), password: _password2.text.trim())
@@ -240,17 +257,44 @@ class _SignUpState extends State<SignUp> {
               .doc(FirebaseAuth.instance.currentUser!.uid)
               .set({"balance": 0}))
           .then((data) => dropdownvalue == "Client"
-              ? Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) {
-                  return HomePageClient(pages: pages, usertype: "Client");
-                }))
-              : Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) {
-                  return const HomepageFreelancer();
-                })));
+              ? Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) =>
+                          HomePageClient(pages: pages, usertype: "Client"))),
+                  (route) => false)
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) {
+              //     return HomePageClient(pages: pages, usertype: "Client");
+              //   }))
+              : Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const HomepageFreelancer())),
+                  (route) => false));
+
+      // Navigator.of(context)
+      //     .push(MaterialPageRoute(builder: (context) {
+      //     return const HomepageFreelancer();
+      //   })));
     } on FirebaseAuthException catch (e) {
       print(e);
+      const snackBar = SnackBar(
+          backgroundColor: kGreen, content: Text('Something went wrong'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        isloading = false;
+      });
+
       return;
+    } on SocketException catch (_) {
+      const snackBar = SnackBar(
+          backgroundColor: Colors.red, content: Text('No internet connection'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print('not connected');
+      setState(() {
+        isloading = false;
+      });
     }
   }
 }
